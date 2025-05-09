@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Core", "iPDFGen.Core\iPDFGen.Core.csproj", "{59D1FD33-D9FC-48DA-804F-692A62C09768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer", "iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj", "{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Puppeteer", "Samples\Samples.Puppeteer\Samples.Puppeteer.csproj", "{9D273E3D-C4A7-4336-A782-F4D366504F2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
