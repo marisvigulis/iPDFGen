@@ -1,27 +1,27 @@
 namespace iPDFGen.Core.Models;
 
-public class PdfGenSettings
+public sealed class PdfGenSettings
 {
     /// <summary>
     /// Scales the rendering of the web page. Amount must be between 0.1 and 2
     /// Default is 1.
     /// </summary>
-    public decimal Scale { get; set; } = 1;
+    public decimal Scale { get; init; } = 1;
 
     /// <summary>
     /// Resulting PDF format. Default is A4.
     /// </summary>
-    public PdfFormat Format { get; set; } = PdfFormat.A4;
+    public PdfFormat Format { get; init; } = PdfFormat.A4;
 
     /// <summary>
     /// Timeout in milliseconds. Default is 60s.
     /// </summary>
-    public int Timeout { get; set; } = PdfGenDefaults.DefaultTimeout;
+    public int Timeout { get; init; } = PdfGenDefaults.DefaultTimeout;
 
     /// <summary>
     /// Shall display header and footer
     /// </summary>
-    public bool DisplayHeaderFooter { get; set; } = false;
+    public bool DisplayHeaderFooter { get; init; } = false;
 
     /// <summary>
     /// HTML template for the print header. Should be valid HTML with the following
@@ -32,11 +32,11 @@ public class PdfGenSettings
     /// - `pageNumber` current page number
     /// - `totalPages` total pages in the document
     /// </summary>
-    public string? HeaderTemplate { get; set; }
+    public string? HeaderTemplate { get; init; }
 
-    public string? FooterTemplate { get; set; }
-    public PdfPageRange? PageRange { get; set; }
-    public string? Width { get; set; }
-    public string? Height { get; set; }
-    public PdfMargin? Margin { get; set; }
+    public string? FooterTemplate { get; init; }
+    public PdfPageRange? PageRange { get; init; }
+    public string? Width { get; init; }
+    public string? Height { get; init; }
+    public PdfMargin? Margin { get; init; }
 }

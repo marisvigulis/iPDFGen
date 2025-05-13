@@ -2,17 +2,17 @@ using iPDFGen.Core.Abstractions;
 
 namespace iPDFGen.Puppeteer;
 
-public class PuppeteerInitializer: IPdfGenInitializer
+internal sealed class PuppeteerInitializer: IPdfGenInitializer
 {
-    private static readonly SemaphoreSlim Semaphore = new(1, 1);
+    private readonly PagePool _pagePool;
 
-    public Task Initialize()
+    public PuppeteerInitializer(PagePool pagePool)
     {
-        throw new NotImplementedException();
+        _pagePool = pagePool;
     }
 
-    public Task EnsureInitialized()
+    public async ValueTask Initialize()
     {
-        throw new NotImplementedException();
+        await _pagePool.Initialize();
     }
 }

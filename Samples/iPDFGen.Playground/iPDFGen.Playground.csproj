@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>iPDFGen.Playground</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\iPDFGen.Core\iPDFGen.Core.csproj" />
+      <ProjectReference Include="..\..\iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="resume.A4.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\resume.A4.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+</Project>

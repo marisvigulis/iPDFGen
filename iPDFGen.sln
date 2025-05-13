@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Core", "iPDFGen.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer", "iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj", "{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Puppeteer", "Samples\Samples.Puppeteer\Samples.Puppeteer.csproj", "{9D273E3D-C4A7-4336-A782-F4D366504F2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playground", "Samples\iPDFGen.Playground\iPDFGen.Playground.csproj", "{9D273E3D-C4A7-4336-A782-F4D366504F2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

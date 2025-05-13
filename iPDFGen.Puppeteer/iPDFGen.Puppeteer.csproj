@@ -14,4 +14,8 @@
       <ProjectReference Include="..\iPDFGen.Core\iPDFGen.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="resume.A4.html" />
+    </ItemGroup>
+
 </Project>

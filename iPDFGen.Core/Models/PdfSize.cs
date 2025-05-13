@@ -11,4 +11,9 @@ public sealed record PdfSize(Decimal Size, PdfUnitOfMeasure Unit)
     public static PdfSize Inches(decimal size) => new(size, PdfUnitOfMeasure.In);
     public static PdfSize Points(decimal size) => new(size, PdfUnitOfMeasure.Pt);
     public static PdfSize Picas(decimal size) => new(size, PdfUnitOfMeasure.Pc);
+
+    public override string ToString()
+    {
+        return $"{Size}{Unit.ToString().ToLowerInvariant()}";
+    }
 }
