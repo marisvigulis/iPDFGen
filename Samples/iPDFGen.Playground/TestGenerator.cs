@@ -1,4 +1,5 @@
 using System.Reflection;
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace iPDFGen.Playground;
 
-public class TestGenerator: IAsyncDisposable
+public class TestGenerator : IAsyncDisposable
 {
     private ServiceProvider _provider = null!;
     private string _testMarkup = null!;
@@ -16,10 +17,13 @@ public class TestGenerator: IAsyncDisposable
     {
         var serviceCollection = new ServiceCollection();
 
-        serviceCollection.AddPdfGen(s =>
-        {
-            s.RegisterPuppeteerPdfGen();
-        });
+        serviceCollection
+            .AddPdfGen(s =>
+            {
+                s.SetDefaultTimeout(TimeSpan.FromSeconds(30))
+                 .SetMaxDegreeOfParallelism(PdfGenDefaults.MaxDegreeOfParallelism)
+                 .RegisterPuppeteerPdfGen();
+            });
 
         _provider = serviceCollection.BuildServiceProvider();
 
@@ -36,7 +40,11 @@ public class TestGenerator: IAsyncDisposable
             .GetRequiredService<IPdfGenerator>()
             .Generate(_testMarkup);
 
-        var result = pdfStream.Match<PdfGenSuccessResult>(result => result, _ => throw new Exception("Failed to generate PDF"));
+        var result =
+            pdfStream.Match<PdfGenSuccessResult>(
+                result => result,
+                _ => throw new Exception("Failed to generate PDF")
+            );
         return result.Stream;
     }
 
@@ -46,7 +54,11 @@ public class TestGenerator: IAsyncDisposable
             .GetRequiredService<IPdfGenerator>()
             .GenerateByUrl("https://docraptor.com/templates/resume/resume.A4.html");
 
-        var result = pdfStream.Match<PdfGenSuccessResult>(result => result, _ => throw new Exception("Failed to generate PDF"));
+        var result =
+            pdfStream.Match<PdfGenSuccessResult>(
+                result => result,
+                _ => throw new Exception("Failed to generate PDF")
+            );
         return result.Stream;
     }
 

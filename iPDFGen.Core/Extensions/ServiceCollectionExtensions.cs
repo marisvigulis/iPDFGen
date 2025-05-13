@@ -7,6 +7,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPdfGen(this IServiceCollection serviceCollection, Action<PdfGenOptions> registerOptions)
     {
         registerOptions(new PdfGenOptions(serviceCollection));
+        serviceCollection.AddSingleton<PdfGenOptions>();
         return serviceCollection;
     }
 }

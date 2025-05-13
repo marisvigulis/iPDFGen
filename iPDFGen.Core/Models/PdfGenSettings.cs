@@ -16,7 +16,7 @@ public sealed class PdfGenSettings
     /// <summary>
     /// Timeout in milliseconds. Default is 60s.
     /// </summary>
-    public int Timeout { get; init; } = PdfGenDefaults.DefaultTimeout;
+    public int? Timeout { get; init; }
 
     /// <summary>
     /// Shall display header and footer

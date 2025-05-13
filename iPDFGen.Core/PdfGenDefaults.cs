@@ -1,7 +1,7 @@
 namespace iPDFGen.Core;
 
-public readonly struct PdfGenDefaults
+public static class PdfGenDefaults
 {
     public const int DefaultTimeout = 60000;
-    public const int MaxDegreeOfParallelism = 32;
+    public static readonly int MaxDegreeOfParallelism = Environment.ProcessorCount * 2;
 }

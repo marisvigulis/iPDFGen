@@ -2,6 +2,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace iPDFGen.Playground;
 
+[ThreadingDiagnoser]
 [MemoryDiagnoser]
 public class GeneratorBenchmark
 {
@@ -23,20 +24,16 @@ public class GeneratorBenchmark
     [Benchmark]
     public async ValueTask Generate()
     {
-        var stream = await _generator.Generate();
+        await using var stream = await _generator.Generate();
         using var streamReader = new StreamReader(stream);
         await streamReader.ReadToEndAsync();
-
-        await stream.DisposeAsync();
     }
 
     [Benchmark]
     public async ValueTask GenerateByUrl()
     {
-        var stream = await _generator.GenerateByUrl();
+        await using var stream = await _generator.GenerateByUrl();
         using var streamReader = new StreamReader(stream);
         await streamReader.ReadToEndAsync();
-
-        await stream.DisposeAsync();
     }
 }
