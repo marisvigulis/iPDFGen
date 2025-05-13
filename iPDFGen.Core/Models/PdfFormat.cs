@@ -1,6 +1,6 @@
 namespace iPDFGen.Core.Models;
 
-public enum PdfFormat
+public enum PdfFormat: short
 {
     Letter,
     Legal,

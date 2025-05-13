@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using iPDFGen.Core;
 
 namespace iPDFGen.Playground;
 
@@ -7,6 +8,7 @@ namespace iPDFGen.Playground;
 public class GeneratorBenchmark
 {
     private TestGenerator _generator = null!;
+    private const int IterationsPerThread = 2;
 
     [GlobalSetup]
     public async ValueTask Setup()
@@ -22,7 +24,7 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask Generate()
+    public async ValueTask GenerateSingle()
     {
         await using var stream = await _generator.Generate();
         using var streamReader = new StreamReader(stream);
@@ -30,10 +32,13 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask GenerateByUrl()
+    public async ValueTask GenerateMany()
     {
-        await using var stream = await _generator.GenerateByUrl();
-        using var streamReader = new StreamReader(stream);
-        await streamReader.ReadToEndAsync();
+        await Parallel.ForEachAsync(new int[PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread],
+            new ParallelOptions
+            {
+                MaxDegreeOfParallelism = PdfGenDefaults.MaxDegreeOfParallelism
+            },
+            async (_, _) => await GenerateSingle());
     }
 }

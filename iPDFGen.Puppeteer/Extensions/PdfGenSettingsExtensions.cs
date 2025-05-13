@@ -4,9 +4,9 @@ using PuppeteerSharp.Media;
 
 namespace iPDFGen.Puppeteer.Extensions;
 
-internal static class PdfGenSettingsExtensions
+public static class PdfGenSettingsExtensions
 {
-    internal static PdfOptions ToPuppeteerPdfOptions(this PdfGenSettings? settings)
+    public static PdfOptions ToPuppeteerPdfOptions(this PdfGenSettings? settings)
     {
         if (settings is null)
         {
@@ -29,7 +29,7 @@ internal static class PdfGenSettingsExtensions
         };
     }
 
-    private static MarginOptions ToPuppeteerMarginOptions(this PdfMargin margin) =>
+    public static MarginOptions ToPuppeteerMarginOptions(this PdfMargin margin) =>
         new()
         {
             Bottom = margin.Bottom?.ToString(),
@@ -38,7 +38,7 @@ internal static class PdfGenSettingsExtensions
             Right = margin.Right?.ToString()
         };
 
-    private static PaperFormat ToPuppeteerPaperFormat(this PdfFormat format)
+    public static PaperFormat ToPuppeteerPaperFormat(this PdfFormat format)
     {
         return format switch
         {

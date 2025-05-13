@@ -23,8 +23,9 @@ internal sealed class PagePool : IAsyncDisposable
             Browser = SupportedBrowser.Chromium,
             HeadlessMode = HeadlessMode.True
         });
-        var pages = await Task.WhenAll(
-            new int[PdfGenDefaults.MaxDegreeOfParallelism].Select(e => _browser.NewPageAsync()));
+        var pageTasks = new int[PdfGenDefaults.MaxDegreeOfParallelism]
+            .Select(_ => _browser.NewPageAsync());
+        var pages = await Task.WhenAll(pageTasks);
         foreach (var page in pages)
         {
             _pages.Add(page);

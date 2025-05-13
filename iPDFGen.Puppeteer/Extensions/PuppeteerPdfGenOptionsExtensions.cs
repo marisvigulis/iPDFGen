@@ -6,7 +6,7 @@ namespace iPDFGen.Puppeteer.Extensions;
 
 public static class PuppeteerPdfGenOptionsExtensions
 {
-    public static PdfGenOptions RegisterPuppeteerPdfGen(this PdfGenOptions options)
+    public static PdfGenOptions UsePuppeteerPdfGen(this PdfGenOptions options)
     {
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, PuppeteerInitializer>();
         options.ServiceCollection.AddSingleton<IPdfGenerator, PuppeteerPdfGenerator>();

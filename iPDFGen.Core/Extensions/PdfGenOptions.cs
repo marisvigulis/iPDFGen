@@ -5,7 +5,7 @@ namespace iPDFGen.Core.Extensions;
 public class PdfGenOptions
 {
     public IServiceCollection ServiceCollection { get; }
-    public double Timeout { get; internal set; } = PdfGenDefaults.DefaultTimeout;
+    public TimeSpan Timeout { get; internal set; } = PdfGenDefaults.DefaultTimeout;
     public int MaxDegreeOfParallelism { get; internal set; } = PdfGenDefaults.MaxDegreeOfParallelism;
 
     public PdfGenOptions(IServiceCollection serviceCollection)
@@ -15,7 +15,7 @@ public class PdfGenOptions
 
     public PdfGenOptions SetDefaultTimeout(TimeSpan timestamp)
     {
-        Timeout = timestamp.TotalMilliseconds;
+        Timeout = timestamp;
         return this;
     }
 

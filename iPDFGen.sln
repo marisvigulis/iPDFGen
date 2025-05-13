@@ -6,6 +6,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer", "iPDFGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playground", "Samples\iPDFGen.Playground\iPDFGen.Playground.csproj", "{9D273E3D-C4A7-4336-A782-F4D366504F2C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C51E0894-EDDC-4557-A2FA-B50E89A753DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9FA798B2-7BB4-4F06-9193-BB04DC136891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer.Tests", "Tests\iPDFGen.Puppeteer.Tests\iPDFGen.Puppeteer.Tests.csproj", "{4C29256E-87BC-4386-A8E7-46A407448806}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +30,13 @@ Global
 		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C} = {9FA798B2-7BB4-4F06-9193-BB04DC136891}
+		{4C29256E-87BC-4386-A8E7-46A407448806} = {C51E0894-EDDC-4557-A2FA-B50E89A753DA}
 	EndGlobalSection
 EndGlobal

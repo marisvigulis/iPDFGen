@@ -21,8 +21,7 @@ public class TestGenerator : IAsyncDisposable
             .AddPdfGen(s =>
             {
                 s.SetDefaultTimeout(TimeSpan.FromSeconds(30))
-                 .SetMaxDegreeOfParallelism(PdfGenDefaults.MaxDegreeOfParallelism)
-                 .RegisterPuppeteerPdfGen();
+                 .UsePuppeteerPdfGen();
             });
 
         _provider = serviceCollection.BuildServiceProvider();
