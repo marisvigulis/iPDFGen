@@ -4,14 +4,16 @@ using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace iPDFGen.Playground;
+namespace iPDFGen.Playground.Providers;
 
-public abstract class TestGeneratorBase
+public abstract class GeneratorBase
 {
     private ServiceProvider _provider = null!;
     private Dictionary<string, string> _markups = null!;
+    private string _defaultTemplate = null!;
+    private const string DefaultTemplateUrl = "https://docraptor.com/templates/resume/resume.A4.html";
 
-    public async Task SetupInternal(Action<PdfGenOptions> register, string defaultTemplateName = "resume.A4.xs.html")
+    protected async ValueTask SetupInternal(Action<PdfGenOptions> register)
     {
         var serviceCollection = new ServiceCollection();
 
@@ -30,11 +32,11 @@ public abstract class TestGeneratorBase
          await LoadEmbeddedResources();
     }
 
-    protected async Task<Stream> GenerateByMarkup(string markup)
+    protected async ValueTask<Stream> GenerateByMarkup(string? markup)
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
-            .Generate(markup);
+            .Generate(markup ?? _defaultTemplate);
 
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
@@ -44,7 +46,7 @@ public abstract class TestGeneratorBase
         return result.Stream;
     }
 
-    protected async ValueTask<Stream> GenerateByUrl(string url = "https://docraptor.com/templates/resume/resume.A4.html")
+    protected async ValueTask<Stream> GenerateByUrl(string url = DefaultTemplateUrl)
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
@@ -73,6 +75,8 @@ public abstract class TestGeneratorBase
         }
 
         _markups = templates.ToDictionary(t => t.Key, t => t.Value);
+
+        _defaultTemplate = _markups.First().Value;
     }
 
     public ValueTask DisposeAsync()

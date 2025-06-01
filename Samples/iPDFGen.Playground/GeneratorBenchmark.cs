@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using iPDFGen.Core;
+using iPDFGen.Playground.Providers;
 
 namespace iPDFGen.Playground;
 
@@ -10,17 +11,16 @@ public class GeneratorBenchmark
     private PuppeteerGenerator _puppeteerGenerator = null!;
     private PlaywrightGenerator _playwrightGenerator = null!;
     private const int IterationsPerThread = 10;
-    private const string DocumentResourceName = "resume.A4.xs.html";
     private static readonly int Iterations = PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread;
 
     [GlobalSetup]
     public async ValueTask Setup()
     {
         _puppeteerGenerator = new PuppeteerGenerator();
-        await _puppeteerGenerator.Setup(DocumentResourceName);
+        await _puppeteerGenerator.Setup();
 
         _playwrightGenerator = new PlaywrightGenerator();
-        await _playwrightGenerator.Setup(DocumentResourceName);
+        await _playwrightGenerator.Setup();
     }
 
     [GlobalCleanup]
@@ -59,7 +59,6 @@ public class GeneratorBenchmark
         await using var stream = await _playwrightGenerator.Generate();
     }
 
-
     [Benchmark]
     public async ValueTask PlaywrightMany()
     {
@@ -70,7 +69,6 @@ public class GeneratorBenchmark
             },
             async (_, _) => await PlaywrightSingle());
     }
-
 
     [Benchmark]
     public async ValueTask PlaywrightSingleByUrl()
