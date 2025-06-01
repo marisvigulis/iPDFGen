@@ -34,9 +34,22 @@ public sealed class PdfGenSettings
     /// </summary>
     public string? HeaderTemplate { get; init; }
 
+    /// <summary>
+    /// HTML template for the footer header. Should be valid HTML with the following
+    /// classes used to inject values into them:
+    /// - `date` formatted print date
+    /// - `title` document title
+    /// - `url` document location
+    /// - `pageNumber` current page number
+    /// - `totalPages` total pages in the document
+    /// </summary>
     public string? FooterTemplate { get; init; }
+
+    /// <summary>
+    /// Pages range that shall be included into the resulting PDF
+    /// </summary>
     public PdfPageRange? PageRange { get; init; }
-    public string? Width { get; init; }
-    public string? Height { get; init; }
+    public PdfSize? Width { get; init; }
+    public PdfSize? Height { get; init; }
     public PdfMargin? Margin { get; init; }
 }

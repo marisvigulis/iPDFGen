@@ -24,12 +24,12 @@ public static class PdfGenSettingsExtensions
                 : null,
             MarginOptions = settings.Margin?.ToPuppeteerMarginOptions(),
             Scale = settings.Scale,
-            Height = settings.Height,
-            Width = settings.Width
+            Height = settings.Height?.ToString(),
+            Width = settings.Width?.ToString(),
         };
     }
 
-    public static MarginOptions ToPuppeteerMarginOptions(this PdfMargin margin) =>
+    private static MarginOptions ToPuppeteerMarginOptions(this PdfMargin margin) =>
         new()
         {
             Bottom = margin.Bottom?.ToString(),

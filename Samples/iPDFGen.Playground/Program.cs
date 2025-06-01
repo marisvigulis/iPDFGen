@@ -1,5 +1,8 @@
-using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 using iPDFGen.Playground;
 
-Summary result = BenchmarkRunner.Run<GeneratorBenchmark>();
+BenchmarkRunner.Run<GeneratorBenchmark>();
+
+// var playwright = new PlaywrightGenerator();
+// await playwright.Setup("resume.A4.html");
+// var a = playwright.Generate();

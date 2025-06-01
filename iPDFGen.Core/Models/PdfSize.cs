@@ -2,8 +2,8 @@ namespace iPDFGen.Core.Models;
 
 public sealed record PdfSize(Decimal Size, PdfUnitOfMeasure Unit)
 {
-    public decimal Size { get; internal set; }
-    public PdfUnitOfMeasure Unit { get; internal set; }
+    public decimal Size { get; } = Size;
+    public PdfUnitOfMeasure Unit { get; } = Unit;
 
     public static PdfSize Pixels(decimal size) => new(size, PdfUnitOfMeasure.Px);
     public static PdfSize Centimeters(decimal size) => new(size, PdfUnitOfMeasure.Percentage);

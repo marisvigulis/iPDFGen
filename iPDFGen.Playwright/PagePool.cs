@@ -1,34 +1,33 @@
 using System.Collections.Concurrent;
 using iPDFGen.Core;
-using PuppeteerSharp;
+using Microsoft.Playwright;
 
-namespace iPDFGen.Puppeteer;
+namespace iPDFGen.Playwright;
 
-internal sealed class PagePool : IAsyncDisposable
+public class PagePool: IDisposable
 {
-    private IBrowser? _browser;
+    private IPlaywright? _playwright;
     private readonly BlockingCollection<IPage> _pages = new();
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
     internal async ValueTask Initialize()
     {
-        var browserFetcher = new BrowserFetcher
+        _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
+        Microsoft.Playwright.Program.Main(new[] { "install", "chromium" });
+        // await _playwright.Chromium.InstallAsync(); // Installs Chromium specifically
+        var browser = await _playwright.Chromium.LaunchAsync(new ()
         {
-            Browser = SupportedBrowser.Chromium
-        };
-        await browserFetcher.DownloadAsync();
-        _browser = await PuppeteerSharp.Puppeteer.LaunchAsync(new LaunchOptions
+            Headless = true
+        });
+        var context = await browser.NewContextAsync(new BrowserNewContextOptions
         {
-            Headless = true,
-            Browser = SupportedBrowser.Chromium,
-            HeadlessMode = HeadlessMode.True
+            JavaScriptEnabled = false
         });
         var pageTasks = new int[PdfGenDefaults.MaxDegreeOfParallelism]
-            .Select(_ => _browser.NewPageAsync());
+            .Select(_ => context.NewPageAsync());
         var pages = await Task.WhenAll(pageTasks);
         foreach (var page in pages)
         {
-            await page.SetJavaScriptEnabledAsync(false);
             _pages.Add(page);
         }
     }
@@ -44,24 +43,24 @@ internal sealed class PagePool : IAsyncDisposable
 
     private async ValueTask EnsureInitialized()
     {
-        if (_browser is not null)
+        if (_playwright is not null)
         {
             return;
         }
 
         await Semaphore.WaitAsync();
-        if (_browser is null)
+        if (_playwright is null)
         {
             await Initialize();
         }
         Semaphore.Release();
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
-        if (_browser != null)
+        if (_playwright != null)
         {
-            await _browser.CloseAsync();
+            _playwright.Dispose();
         }
     }
 }

@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\iPDFGen.Core\iPDFGen.Core.csproj" />
+      <ProjectReference Include="..\..\iPDFGen.Playwright\iPDFGen.Playwright.csproj" />
       <ProjectReference Include="..\..\iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj" />
     </ItemGroup>
 
@@ -22,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Templates\resume.A4.html">
+      <EmbeddedResource Include="Templates\resume.A4.xs.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>

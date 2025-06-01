@@ -1,5 +1,4 @@
 using System.Reflection;
-using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace iPDFGen.Playground;
 
-public class TestGenerator : IAsyncDisposable
+public class PuppeteerGenerator : IAsyncDisposable
 {
     private ServiceProvider _provider = null!;
     private string _testMarkup = null!;

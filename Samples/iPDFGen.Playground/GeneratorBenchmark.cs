@@ -7,38 +7,74 @@ namespace iPDFGen.Playground;
 [MemoryDiagnoser]
 public class GeneratorBenchmark
 {
-    private TestGenerator _generator = null!;
-    private const int IterationsPerThread = 2;
+    private PuppeteerGenerator _puppeteerGenerator = null!;
+    private PlaywrightGenerator _playwrightGenerator = null!;
+    private const int IterationsPerThread = 10;
+    private const string DocumentResourceName = "resume.A4.xs.html";
+    private static readonly int Iterations = PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread;
 
     [GlobalSetup]
     public async ValueTask Setup()
     {
-        _generator = new TestGenerator();
-        await _generator.Setup("resume.A4.html");
+        _puppeteerGenerator = new PuppeteerGenerator();
+        await _puppeteerGenerator.Setup(DocumentResourceName);
+
+        _playwrightGenerator = new PlaywrightGenerator();
+        await _playwrightGenerator.Setup(DocumentResourceName);
     }
 
     [GlobalCleanup]
-    public ValueTask Cleanup()
+    public async ValueTask Cleanup()
     {
-        return _generator.DisposeAsync();
+        await _puppeteerGenerator.DisposeAsync();
+        await _playwrightGenerator.DisposeAsync();
     }
 
     [Benchmark]
-    public async ValueTask GenerateSingle()
+    public async ValueTask PuppeteerSingle()
     {
-        await using var stream = await _generator.Generate();
-        using var streamReader = new StreamReader(stream);
-        await streamReader.ReadToEndAsync();
+        await using var stream = await _puppeteerGenerator.Generate();
     }
 
     [Benchmark]
-    public async ValueTask GenerateMany()
+    public async ValueTask PuppeteerMany()
     {
-        await Parallel.ForEachAsync(new int[PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread],
+        await Parallel.ForEachAsync(new int[Iterations],
             new ParallelOptions
             {
                 MaxDegreeOfParallelism = PdfGenDefaults.MaxDegreeOfParallelism
             },
-            async (_, _) => await GenerateSingle());
+            async (_, _) => await PuppeteerSingle());
+    }
+
+    [Benchmark]
+    public async ValueTask PuppeteerSingleByUrl()
+    {
+        await using var stream = await _puppeteerGenerator.GenerateByUrl();
+    }
+
+    [Benchmark]
+    public async ValueTask PlaywrightSingle()
+    {
+        await using var stream = await _playwrightGenerator.Generate();
+    }
+
+
+    [Benchmark]
+    public async ValueTask PlaywrightMany()
+    {
+        await Parallel.ForEachAsync(new int[Iterations],
+            new ParallelOptions
+            {
+                MaxDegreeOfParallelism = PdfGenDefaults.MaxDegreeOfParallelism
+            },
+            async (_, _) => await PlaywrightSingle());
+    }
+
+
+    [Benchmark]
+    public async ValueTask PlaywrightSingleByUrl()
+    {
+        await using var stream = await _playwrightGenerator.GenerateByUrl();
     }
 }

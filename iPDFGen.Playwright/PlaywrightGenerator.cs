@@ -2,17 +2,17 @@ using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
-using iPDFGen.Puppeteer.Extensions;
+using iPDFGen.Playwright.Extensions;
+using Microsoft.Playwright;
 using OneOf;
-using PuppeteerSharp;
 
-namespace iPDFGen.Puppeteer;
+namespace iPDFGen.Playwright;
 
-internal sealed class PuppeteerPdfGenerator: IPdfGenerator
+internal sealed class PlaywrightGenerator: IPdfGenerator
 {
     private readonly PagePool _pagePool;
 
-    public PuppeteerPdfGenerator(PagePool pagePool)
+    public PlaywrightGenerator(PagePool pagePool)
     {
         _pagePool = pagePool;
     }
@@ -21,12 +21,14 @@ internal sealed class PuppeteerPdfGenerator: IPdfGenerator
     {
         var pdfStream = await _pagePool.Run(async page =>
         {
-            await page.SetContentAsync(markup, new NavigationOptions
+            await page.SetContentAsync(markup, new PageSetContentOptions
             {
                 Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
             });
 
-            return await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions());
+            var fileBytes = await page.PdfAsync(settings?.ToPlaywrightPdfOptions());
+
+            return new MemoryStream(fileBytes);
         });
 
         return new PdfGenSuccessResult
@@ -39,14 +41,14 @@ internal sealed class PuppeteerPdfGenerator: IPdfGenerator
     {
         var pdfStream = await _pagePool.Run(async page =>
         {
-            await page.GoToAsync(url, new NavigationOptions
+            await page.GotoAsync(url, new PageGotoOptions
             {
-                Timeout = settings?.Timeout
+                Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
             });
 
-            var result = await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions());
+            var result = await page.PdfAsync(settings.ToPlaywrightPdfOptions());
 
-            return result;
+            return new MemoryStream(result);
         });
 
         return new PdfGenSuccessResult

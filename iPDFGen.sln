@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9FA7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer.Tests", "Tests\iPDFGen.Puppeteer.Tests\iPDFGen.Puppeteer.Tests.csproj", "{4C29256E-87BC-4386-A8E7-46A407448806}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playwright", "iPDFGen.Playwright\iPDFGen.Playwright.csproj", "{07D30248-2122-4F95-B9FC-D7FF4BF44567}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{4C29256E-87BC-4386-A8E7-46A407448806}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9D273E3D-C4A7-4336-A782-F4D366504F2C} = {9FA798B2-7BB4-4F06-9193-BB04DC136891}
