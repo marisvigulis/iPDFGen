@@ -10,7 +10,7 @@ public class GeneratorBenchmark
 {
     private PuppeteerGenerator _puppeteerGenerator = null!;
     private PlaywrightGenerator _playwrightGenerator = null!;
-    private const int IterationsPerThread = 10;
+    private const int IterationsPerThread = 5;
     private static readonly int Iterations = PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread;
 
     [GlobalSetup]

@@ -2,11 +2,11 @@ using iPDFGen.Puppeteer.Extensions;
 
 namespace iPDFGen.Playground.Providers;
 
-public class PuppeteerGenerator : GeneratorBase, IAsyncDisposable
+public sealed class PuppeteerGenerator : GeneratorBase, IAsyncDisposable
 {
     public ValueTask Setup()
     {
-        return SetupInternal(a => a.UsePuppeteerPdfGen());
+        return SetupInternal(options => options.UsePuppeteer());
     }
 
     public ValueTask<Stream> Generate()

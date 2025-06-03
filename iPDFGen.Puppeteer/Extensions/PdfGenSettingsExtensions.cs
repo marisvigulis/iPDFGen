@@ -6,7 +6,7 @@ namespace iPDFGen.Puppeteer.Extensions;
 
 public static class PdfGenSettingsExtensions
 {
-    public static PdfOptions ToPuppeteerPdfOptions(this PdfGenSettings? settings)
+    public static PdfOptions ToPuppeteerPdfOptions(this PdfGeneratorSettings? settings)
     {
         if (settings is null)
         {

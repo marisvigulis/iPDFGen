@@ -44,7 +44,7 @@ public class OptionsMappingTests
     [Fact]
     public void ToPuppeteerPdfOptions_MapsAllFieldsCorrectly()
     {
-        var settings = new PdfGenSettings
+        var settings = new PdfGeneratorSettings
         {
             Format = PdfFormat.A4,
             Width = PdfSize.Pixels(100),

@@ -2,11 +2,11 @@ using iPDFGen.Playwright.Extensions;
 
 namespace iPDFGen.Playground.Providers;
 
-public class PlaywrightGenerator : GeneratorBase, IAsyncDisposable
+public sealed class PlaywrightGenerator : GeneratorBase
 {
     public ValueTask Setup()
     {
-        return SetupInternal(a => a.UsePlaywright());
+        return SetupInternal(options => options.UsePlaywright());
     }
 
     public ValueTask<Stream> Generate()

@@ -1,4 +1,5 @@
 using iPDFGen.Core.Abstractions;
+using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 

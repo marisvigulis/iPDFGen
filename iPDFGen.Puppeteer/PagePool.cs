@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 using iPDFGen.Core;
+using iPDFGen.Core.Extensions;
+using iPDFGen.Core.Models;
 using PuppeteerSharp;
 
 namespace iPDFGen.Puppeteer;
@@ -9,6 +11,13 @@ internal sealed class PagePool : IAsyncDisposable
     private IBrowser? _browser;
     private readonly BlockingCollection<IPage> _pages = new();
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
+    private readonly PdfGenRegistrationSettings _pdfGenOptions;
+
+    public PagePool(PdfGenRegistrationSettings pdfGenOptions)
+    {
+        _pdfGenOptions = pdfGenOptions;
+    }
+
 
     internal async ValueTask Initialize()
     {
@@ -23,7 +32,7 @@ internal sealed class PagePool : IAsyncDisposable
             Browser = SupportedBrowser.Chromium,
             HeadlessMode = HeadlessMode.True
         });
-        var pageTasks = new int[PdfGenDefaults.MaxDegreeOfParallelism]
+        var pageTasks = new int[_pdfGenOptions.MaxDegreeOfParallelism]
             .Select(_ => _browser.NewPageAsync());
         var pages = await Task.WhenAll(pageTasks);
         foreach (var page in pages)
@@ -40,6 +49,7 @@ internal sealed class PagePool : IAsyncDisposable
         var result = await func(page);
         _pages.Add(page);
         return result;
+
     }
 
     private async ValueTask EnsureInitialized()

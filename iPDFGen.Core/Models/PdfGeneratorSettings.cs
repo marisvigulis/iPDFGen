@@ -1,6 +1,6 @@
 namespace iPDFGen.Core.Models;
 
-public sealed class PdfGenSettings
+public sealed class PdfGeneratorSettings
 {
     /// <summary>
     /// Scales the rendering of the web page. Amount must be between 0.1 and 2

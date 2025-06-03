@@ -14,6 +14,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playwright", "iPDFGen.Playwright\iPDFGen.Playwright.csproj", "{07D30248-2122-4F95-B9FC-D7FF4BF44567}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDE84205-B359-4F2E-89B1-F069E80094F9}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Server", "iPDFGen.Server\iPDFGen.Server.csproj", "{93F3110A-DFC7-4146-9794-99343A816025}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +49,15 @@ Global
 		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9D273E3D-C4A7-4336-A782-F4D366504F2C} = {9FA798B2-7BB4-4F06-9193-BB04DC136891}
 		{4C29256E-87BC-4386-A8E7-46A407448806} = {C51E0894-EDDC-4557-A2FA-B50E89A753DA}
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567} = {D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4} = {D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}
 	EndGlobalSection
 EndGlobal

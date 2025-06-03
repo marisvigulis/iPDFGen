@@ -11,7 +11,7 @@ public abstract class GeneratorBase
     private ServiceProvider _provider = null!;
     private Dictionary<string, string> _markups = null!;
     private string _defaultTemplate = null!;
-    private const string DefaultTemplateUrl = "https://docraptor.com/templates/resume/resume.A4.html";
+    private const string DefaultTemplateUrl = "https://raw.githubusercontent.com/marisvigulis/iPDFGen/refs/heads/mv/initial_core_with_puppeteer/Samples/iPDFGen.Playground/Templates/resume.A4.xs.html?token=GHSAT0AAAAAADCZFZEU2OCUFBCMHKMPWTWE2B6UCJQ";
 
     protected async ValueTask SetupInternal(Action<PdfGenOptions> register)
     {
@@ -65,7 +65,7 @@ public abstract class GeneratorBase
         var assembly = Assembly.GetExecutingAssembly();
         var embeddedResourceNames = assembly.GetManifestResourceNames()
             .Where(e => e.StartsWith("iPDFGen.Playground.Templates"));
-        List<KeyValuePair<string, string>> templates = new List<KeyValuePair<string, string>>();
+        List<KeyValuePair<string, string>> templates = [];
         foreach (var embeddedResourceName in embeddedResourceNames)
         {
             await using var stream = assembly.GetManifestResourceStream(embeddedResourceName)!;

@@ -1,4 +1,5 @@
 using iPDFGen.Core.Abstractions;
+using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,7 +7,7 @@ namespace iPDFGen.Puppeteer.Extensions;
 
 public static class PuppeteerPdfGenOptionsExtensions
 {
-    public static PdfGenOptions UsePuppeteerPdfGen(this PdfGenOptions options)
+    public static PdfGenOptions UsePuppeteer(this PdfGenOptions options)
     {
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, PuppeteerInitializer>();
         options.ServiceCollection.AddSingleton<IPdfGenerator, PuppeteerPdfGenerator>();

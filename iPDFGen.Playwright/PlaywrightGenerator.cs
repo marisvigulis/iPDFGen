@@ -17,7 +17,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
         _pagePool = pagePool;
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGenSettings? settings = null)
+    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
     {
         var pdfStream = await _pagePool.Run(async page =>
         {
@@ -37,7 +37,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
         };
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGenSettings? settings = null)
+    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
     {
         var pdfStream = await _pagePool.Run(async page =>
         {

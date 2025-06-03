@@ -5,7 +5,7 @@ namespace iPDFGen.Playwright.Extensions;
 
 public static class PdfGenSettingsExtensions
 {
-    public static PagePdfOptions ToPlaywrightPdfOptions(this PdfGenSettings? settings)
+    public static PagePdfOptions ToPlaywrightPdfOptions(this PdfGeneratorSettings? settings)
     {
         if (settings is null)
         {

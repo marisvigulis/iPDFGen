@@ -1,21 +1,28 @@
 using System.Collections.Concurrent;
-using iPDFGen.Core;
+using iPDFGen.Core.Extensions;
+using iPDFGen.Core.Models;
 using Microsoft.Playwright;
 
 namespace iPDFGen.Playwright;
 
-public class PagePool: IDisposable
+public class PagePool : IDisposable
 {
     private IPlaywright? _playwright;
     private readonly BlockingCollection<IPage> _pages = new();
+    private readonly PdfGenRegistrationSettings _pdfGenOptions;
+
+    public PagePool(PdfGenRegistrationSettings pdfGenOptions)
+    {
+        _pdfGenOptions = pdfGenOptions;
+    }
+
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
     internal async ValueTask Initialize()
     {
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-        Microsoft.Playwright.Program.Main(new[] { "install", "chromium" });
-        // await _playwright.Chromium.InstallAsync(); // Installs Chromium specifically
-        var browser = await _playwright.Chromium.LaunchAsync(new ()
+        Program.Main(["install", "chromium"]);
+        var browser = await _playwright.Chromium.LaunchAsync(new()
         {
             Headless = true
         });
@@ -23,7 +30,7 @@ public class PagePool: IDisposable
         {
             JavaScriptEnabled = false
         });
-        var pageTasks = new int[PdfGenDefaults.MaxDegreeOfParallelism]
+        var pageTasks = new int[_pdfGenOptions.MaxDegreeOfParallelism]
             .Select(_ => context.NewPageAsync());
         var pages = await Task.WhenAll(pageTasks);
         foreach (var page in pages)
@@ -53,6 +60,7 @@ public class PagePool: IDisposable
         {
             await Initialize();
         }
+
         Semaphore.Release();
     }
 

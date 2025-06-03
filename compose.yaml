@@ -1,0 +1,13 @@
+﻿services:
+  webapplication1:
+    image: webapplication1
+    build:
+      context: .
+      dockerfile: WebApplication1/Dockerfile
+
+  ipdfgen.server:
+    image: ipdfgen.server
+    build:
+      context: .
+      dockerfile: iPDFGen.Server/Dockerfile
+
