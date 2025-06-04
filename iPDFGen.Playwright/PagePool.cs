@@ -17,7 +17,7 @@ public class PagePool : IDisposable
 
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    internal async ValueTask Initialize()
+    internal async ValueTask InitializeAsync()
     {
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
         Program.Main(["install", "chromium"]);
@@ -38,16 +38,16 @@ public class PagePool : IDisposable
         }
     }
 
-    public async ValueTask<Stream?> Run(Func<IPage, Task<Stream?>> func)
+    public async ValueTask<Stream?> RunAsync(Func<IPage, Task<Stream?>> func)
     {
-        await EnsureInitialized();
+        await EnsureInitializedAsync();
         var page = _pages.Take();
         var result = await func(page);
         _pages.Add(page);
         return result;
     }
 
-    private async ValueTask EnsureInitialized()
+    private async ValueTask EnsureInitializedAsync()
     {
         if (_playwright is not null)
         {
@@ -57,7 +57,7 @@ public class PagePool : IDisposable
         await Semaphore.WaitAsync();
         if (_playwright is null)
         {
-            await Initialize();
+            await InitializeAsync();
         }
 
         Semaphore.Release();

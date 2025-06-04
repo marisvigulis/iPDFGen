@@ -11,7 +11,7 @@ internal sealed class PuppeteerInitializer: IPdfGenInitializer
         _pagePool = pagePool;
     }
 
-    public async ValueTask Initialize()
+    public async ValueTask InitializeAsync()
     {
         await _pagePool.Initialize();
     }

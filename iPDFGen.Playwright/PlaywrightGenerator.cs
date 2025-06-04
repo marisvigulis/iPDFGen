@@ -1,4 +1,5 @@
 using iPDFGen.Core;
+using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
 using iPDFGen.Playwright.Extensions;
@@ -18,7 +19,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
 
     public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.Run(async page =>
+        var pdfStream = await _pagePool.RunAsync(async page =>
         {
             await page.SetContentAsync(markup, new PageSetContentOptions
             {
@@ -34,11 +35,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
 
         if (pdfStream is null)
         {
-            return new PdfGenErrorResult
-            {
-                Code = "01",
-                Message = "Internal error"
-            };
+            return new PdfGenErrorResult("01", "Internal error");
         }
 
         return new PdfGenSuccessResult
@@ -49,7 +46,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
 
     public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.Run(async page =>
+        var pdfStream = await _pagePool.RunAsync(async page =>
         {
             await page.GotoAsync(url, new PageGotoOptions
             {

@@ -1,4 +1,5 @@
 using iPDFGen.Core;
+using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
 using iPDFGen.Puppeteer.Extensions;
@@ -53,11 +54,7 @@ internal sealed class PuppeteerGenerator: IPdfGenerator
 
         if (pdfStream is null)
         {
-            return new PdfGenErrorResult
-            {
-                Code = "01",
-                Message = "Internal error"
-            };
+            return new PdfGenErrorResult("01", "Internal error");
         }
 
         return new PdfGenSuccessResult

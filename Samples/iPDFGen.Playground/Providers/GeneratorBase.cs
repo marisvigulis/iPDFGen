@@ -30,7 +30,7 @@ public abstract class GeneratorBase
 
         await _provider
             .GetRequiredService<IPdfGenInitializer>()
-            .Initialize();
+            .InitializeAsync();
 
          await LoadEmbeddedResources();
     }

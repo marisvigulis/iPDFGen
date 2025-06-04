@@ -31,11 +31,10 @@ builder.Services.AddPdfGen(options =>
 });
 
 var app = builder.Build();
-await app.Services.GetRequiredService<IPdfGenInitializer>().Initialize();
+await app.Services.GetRequiredService<IPdfGenInitializer>().InitializeAsync();
 
 if (!args.Any())
 {
-    // app.UseHttpsRedirection();
     app.UseGzipRequestDecompression();
 
     app.MapGet("api/alive", () => "I'm alive");

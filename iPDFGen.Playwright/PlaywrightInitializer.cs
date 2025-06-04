@@ -11,8 +11,8 @@ internal sealed class PlaywrightInitializer: IPdfGenInitializer
         _pagePool = pagePool;
     }
 
-    public async ValueTask Initialize()
+    public async ValueTask InitializeAsync()
     {
-        await _pagePool.Initialize();
+        await _pagePool.InitializeAsync();
     }
 }
