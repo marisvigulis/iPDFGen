@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Testson - .NET Core Developer CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            /*background-color: #f4f4f4;*/
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        p, li {
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .skills li {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .experience-item {
+            margin-bottom: 15px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        @media screen {
+            .page-break {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="profile-header">
+        <img src="data:image/jpeg;base64,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"
+             alt="profile-picture"/>
+    </div>
+    <div class="experience-item">
+        <h3>.NET Developer - Innovate Systems, Boston, MA</h3>
+        <p><em>June 2015 - December 2018</em></p>
+        <ul>
+            <li>Developed RESTful APIs using ASP.NET Web API, enabling seamless integration with front-end React
+                applications.
+            </li>
+            <li>Optimized database performance using Entity Framework and SQL Server, reducing query execution time by
+                25%.
+            </li>
+            <li>Collaborated with cross-functional teams to deliver features in an Agile environment.</li>
+            <li>Mentored junior developers in best practices for unit testing and code reviews.</li>
+        </ul>
+    </div>
+    <div class="experience-item">
+        <h3>Junior .NET Developer - CodeWorks, Chicago, IL</h3>
+        <p><em>May 2013 - May 2015</em></p>
+        <ul>
+            <li>Assisted in developing desktop applications using WPF and .NET Framework.</li>
+            <li>Contributed to database design and wrote stored procedures for SQL Server.</li>
+            <li>Participated in code reviews and adopted Test-Driven Development (TDD) practices.</li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Education</h2>
+        <h3>Bachelor of Science in Computer Science</h3>
+        <p>University of Illinois, Chicago, IL | 2009 - 2013</p>
+    </div>
+
+    <div class="section">
+        <h2>Certifications</h2>
+        <ul>
+            <li>Microsoft Certified: Azure Developer Associate (2021)</li>
+            <li>Microsoft Certified: .NET Core Developer (2019)</li>
+        </ul>
+    </div>
+
+    <div class="section page-break">
+        <h2>Projects</h2>
+        <ul>
+            <li><strong>E-Commerce Platform</strong>: Developed a full-stack e-commerce application using ASP.NET Core,
+                React, and SQL Server, featuring payment gateway integration and real-time inventory updates.
+            </li>
+            <li><strong>Task Management System</strong>: Built a microservices-based task management tool using .NET
+                Core, Docker, and Azure, with a React front-end.
+            </li>
+            <li><strong>Fancy system A</strong>: Built a microservices-based task management tool using .NET Core,
+                Docker, and Azure, with a React front-end and dozens of other buzz-words here.
+            </li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Pet projects</h2>
+        <ul>
+            <li><strong>My free opensource fancy pet-project</strong>: https://github.com/fancy-project</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

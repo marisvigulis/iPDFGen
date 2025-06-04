@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Core", "iPDFGen.Core\iPDFGen.Core.csproj", "{59D1FD33-D9FC-48DA-804F-692A62C09768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer", "iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj", "{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playground", "Samples\iPDFGen.Playground\iPDFGen.Playground.csproj", "{9D273E3D-C4A7-4336-A782-F4D366504F2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C51E0894-EDDC-4557-A2FA-B50E89A753DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9FA798B2-7BB4-4F06-9193-BB04DC136891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Puppeteer.Tests", "Tests\iPDFGen.Puppeteer.Tests\iPDFGen.Puppeteer.Tests.csproj", "{4C29256E-87BC-4386-A8E7-46A407448806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Playwright", "iPDFGen.Playwright\iPDFGen.Playwright.csproj", "{07D30248-2122-4F95-B9FC-D7FF4BF44567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDE84205-B359-4F2E-89B1-F069E80094F9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Server", "iPDFGen.Server\iPDFGen.Server.csproj", "{93F3110A-DFC7-4146-9794-99343A816025}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D1FD33-D9FC-48DA-804F-692A62C09768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C29256E-87BC-4386-A8E7-46A407448806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93F3110A-DFC7-4146-9794-99343A816025}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D273E3D-C4A7-4336-A782-F4D366504F2C} = {9FA798B2-7BB4-4F06-9193-BB04DC136891}
+		{4C29256E-87BC-4386-A8E7-46A407448806} = {C51E0894-EDDC-4557-A2FA-B50E89A753DA}
+		{07D30248-2122-4F95-B9FC-D7FF4BF44567} = {D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}
+		{02ADC585-EEEA-4BDA-A894-436EA6A0C6F4} = {D1F3290E-9E00-41A0-B4ED-4AC8B00D92B8}
+	EndGlobalSection
+EndGlobal
