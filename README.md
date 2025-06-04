@@ -89,8 +89,8 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
 |-------------------------|--------------------------|-------------------|----------------------------------------------------------------------|
 | `iPDFGen.Puppeteer`     | Puppeteer-Sharp          | ✅ Supported       | Fast for single-page PDFs, requires Chromium.                         |
 | `iPDFGen.Playwright`    | Microsoft Playwright     | ✅ Supported       | Best performance for multi-page PDFs, supports multiple browsers.     |
-| `iPDFGen.RemoteServer`  | HttpClient               | ✅ Supported       | Ideal for offloading PDF generation to a remote server.               |
-| More providers          | TBD                      | 🚧 In Development  | Contributions welcome!                                                |
+| `iPDFGen.RemoteServer`  | HttpClient               | 🚧 In Development | Ideal for offloading PDF generation to a remote server.               |
+| More providers          | TBD                      | 🚧 Planned        | Contributions welcome!                                                |
 
 ## Benchmarks
 
@@ -110,8 +110,6 @@ Benchmarks were conducted using a 2-page dummy CV (`resume.A4.xs.html`) on a Lin
 - Memory usage is significantly lower with Playwright for bulk tasks.
 - URL-based generation is faster with Playwright due to optimized browser handling.
 
-For detailed benchmark results, see the [BenchmarkDotNet output](link-to-benchmark-file).
-
 ## Troubleshooting
 
 - **Browser not found**: Ensure Chromium (or another supported browser) is installed for Puppeteer/Playwright. Run `playwright install` for Playwright.
@@ -121,11 +119,11 @@ For detailed benchmark results, see the [BenchmarkDotNet output](link-to-benchma
 ## Contributing
 
 We welcome contributions to iPDFGen! To get started:
-1. Fork the repository on [GitHub](https://github.com/your-repo/iPDFGen).
+1. Fork the repository on [GitHub](https://github.com/marisvigulis/iPDFGen).
 2. Create a feature branch (`git checkout -b feature/your-feature`).
 3. Submit a pull request with clear descriptions and tests.
 
-See [CONTRIBUTING.md](link-to-contributing-file) for details.
+[//]: # (See [CONTRIBUTING.md]&#40;link-to-contributing-file&#41; for details.)
 
 ## License
 
@@ -133,4 +131,4 @@ iPDFGen is licensed under the [MIT License](LICENSE). Feel free to use, modify, 
 
 ## Contact
 
-For questions or feedback, open an issue on [GitHub](https://github.com/your-repo/iPDFGen) or join our [community discussions](link-to-discussions).
+For questions or feedback, open an issue on [GitHub](https://github.com/marisvigulis/iPDFGen) or join our [community discussions](https://github.com/marisvigulis/iPDFGen/discussions).
