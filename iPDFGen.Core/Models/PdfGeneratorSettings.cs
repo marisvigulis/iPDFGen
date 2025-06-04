@@ -49,7 +49,19 @@ public sealed class PdfGeneratorSettings
     /// Pages range that shall be included into the resulting PDF
     /// </summary>
     public PdfPageRange? PageRange { get; init; }
+
+    /// <summary>
+    /// Width of a page
+    /// </summary>
     public PdfSize? Width { get; init; }
+
+    /// <summary>
+    /// Height of a page
+    /// </summary>
     public PdfSize? Height { get; init; }
+
+    /// <summary>
+    /// Predefined page margins
+    /// </summary>
     public PdfMargin? Margin { get; init; }
 }

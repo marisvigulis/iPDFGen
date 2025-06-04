@@ -1,5 +1,8 @@
 namespace iPDFGen.Core.Models;
 
+/// <summary>
+/// Resulting PDF page format
+/// </summary>
 public enum PdfFormat: short
 {
     Letter,
