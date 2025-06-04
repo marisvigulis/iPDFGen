@@ -35,7 +35,7 @@ public sealed class PdfGeneratorSettings
     public string? HeaderTemplate { get; init; }
 
     /// <summary>
-    /// HTML template for the footer header. Should be valid HTML with the following
+    /// HTML template for the footer. Should be valid HTML with the following
     /// classes used to inject values into them:
     /// - `date` formatted print date
     /// - `title` document title
