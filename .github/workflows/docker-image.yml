@@ -15,4 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag iPDFGen.Server:$(date +%s)
+      run: docker build . --file Dockerfile --tag ipdfgenserver:$(date +%Y%m%d)_${{ github.run_number }}
+
