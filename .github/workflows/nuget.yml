@@ -15,9 +15,17 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Extract version from branch name
+      - name: Extract version
         id: extract_version
-        run: echo "VERSION=$(echo $GITHUB_REF_NAME | sed 's/releases\///')" >> $GITHUB_OUTPUT
+        run: |
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+          if [[ $BRANCH_NAME =~ releases/([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "Error: Branch name doesn't match expected format" >&2
+            exit 1
+          fi
+
 
       - name: publish iPDFGen.Core to Nuget
         uses: rohith/publish-nuget@v2
