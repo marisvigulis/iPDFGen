@@ -1,6 +1,5 @@
 <Project>
     <PropertyGroup>
-        <Version>8.0.2</Version>
         <Authors>Maris Vigulis</Authors>
         <Company>iPDFSharp</Company>
         <Description>A Microsoft.Playwright provider for iPDFGen</Description>
