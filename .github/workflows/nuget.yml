@@ -5,18 +5,17 @@ on:
     types:
       - completed
     branches:
-      - releases/** # Default release branch
+      - releases/**
 
 jobs:
   publish:
-    # Only run if the dotnet workflow was successful
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: build, pack & publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_branch }} # Checkout the branch that triggered the workflow
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
