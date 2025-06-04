@@ -1,5 +1,4 @@
 using iPDFGen.Core;
-using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
 using iPDFGen.Playwright.Extensions;
@@ -23,13 +22,24 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
         {
             await page.SetContentAsync(markup, new PageSetContentOptions
             {
-                Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
+                Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds,
+
             });
 
             var fileBytes = await page.PdfAsync(settings?.ToPlaywrightPdfOptions());
-
-            return new MemoryStream(fileBytes);
+            return fileBytes.Length == 0
+                ? null
+                : new MemoryStream(fileBytes);
         });
+
+        if (pdfStream is null)
+        {
+            return new PdfGenErrorResult
+            {
+                Code = "01",
+                Message = "Internal error"
+            };
+        }
 
         return new PdfGenSuccessResult
         {

@@ -1,4 +1,5 @@
 using System.Reflection;
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
@@ -20,7 +21,9 @@ public abstract class GeneratorBase
         serviceCollection
             .AddPdfGen(s =>
             {
-                register(s.SetDefaultTimeout(TimeSpan.FromSeconds(30)));
+                register(s
+                    .SetDefaultTimeout(TimeSpan.FromSeconds(30))
+                    .SetMaxDegreeOfParallelism(PdfGenDefaults.MaxDegreeOfParallelism));
             });
 
         _provider = serviceCollection.BuildServiceProvider();

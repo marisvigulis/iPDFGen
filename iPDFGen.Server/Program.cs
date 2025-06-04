@@ -4,6 +4,8 @@ using iPDFGen.Core.Extensions;
 using iPDFGen.Playwright.Extensions;
 using iPDFGen.Puppeteer.Extensions;
 using iPDFGen.Server;
+using iPDFGen.Server.Middlewares;
+using iPDFGen.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,17 +30,14 @@ builder.Services.AddPdfGen(s =>
 });
 
 var app = builder.Build();
+await app.Services.GetRequiredService<IPdfGenInitializer>().Initialize();
 
-if (args.Any())
+if (!args.Any())
 {
-    await app.Services.GetRequiredService<IPdfGenInitializer>().Initialize();
-}
-else
-{
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
     app.UseGzipRequestDecompression();
 
-    app.MapGet("api/alive", () => "I'm alive!");
+    app.MapGet("api/alive", () => "I'm alive");
 
     app.MapPost("/api/files/pdf", async (HttpContext context, [FromBody] PdfGenRequest request) =>
     {
@@ -46,8 +45,8 @@ else
         var result = await generator.Generate(request.Body, request.Settings);
 
         return result.Match(
-            success => Results.File(success.Stream, "application/pdf", "test.pdf"),
-            err => Results.BadRequest("Something bad has happened")
+            success => Results.File(success.Stream, "application/pdf", "result.pdf"),
+            err => Results.BadRequest(err)
         );
     });
 

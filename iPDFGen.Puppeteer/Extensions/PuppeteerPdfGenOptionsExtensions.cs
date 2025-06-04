@@ -10,7 +10,7 @@ public static class PuppeteerPdfGenOptionsExtensions
     public static PdfGenOptions UsePuppeteer(this PdfGenOptions options)
     {
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, PuppeteerInitializer>();
-        options.ServiceCollection.AddSingleton<IPdfGenerator, PuppeteerPdfGenerator>();
+        options.ServiceCollection.AddSingleton<IPdfGenerator, PuppeteerGenerator>();
         options.ServiceCollection.AddSingleton<PagePool, PagePool>();
 
         return options;

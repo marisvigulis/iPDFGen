@@ -14,7 +14,7 @@ public sealed class PdfGeneratorSettings
     public PdfFormat Format { get; init; } = PdfFormat.A4;
 
     /// <summary>
-    /// Timeout in milliseconds. Default is 60s.
+    /// Timeout in milliseconds. Default is 30s.
     /// </summary>
     public int? Timeout { get; init; }
 

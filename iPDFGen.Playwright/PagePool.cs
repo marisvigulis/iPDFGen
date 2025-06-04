@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using iPDFGen.Core.Extensions;
 using iPDFGen.Core.Models;
 using Microsoft.Playwright;
 
@@ -39,7 +38,7 @@ public class PagePool : IDisposable
         }
     }
 
-    public async ValueTask<Stream> Run(Func<IPage, Task<Stream>> func)
+    public async ValueTask<Stream?> Run(Func<IPage, Task<Stream?>> func)
     {
         await EnsureInitialized();
         var page = _pages.Take();

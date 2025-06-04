@@ -42,7 +42,7 @@ internal sealed class PagePool : IAsyncDisposable
         }
     }
 
-    public async ValueTask<Stream> Run(Func<IPage, Task<Stream>> func)
+    public async ValueTask<Stream?> Run(Func<IPage, Task<Stream>> func)
     {
         await EnsureInitialized();
         var page = _pages.Take();

@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace iPDFGen.Server;
+namespace iPDFGen.Server.Middlewares;
 
 public class GzipRequestMiddleware
 {

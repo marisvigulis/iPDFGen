@@ -1,18 +1,18 @@
 using iPDFGen.Core;
-using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
 using iPDFGen.Puppeteer.Extensions;
 using OneOf;
 using PuppeteerSharp;
+using PuppeteerSharp.Media;
 
 namespace iPDFGen.Puppeteer;
 
-internal sealed class PuppeteerPdfGenerator: IPdfGenerator
+internal sealed class PuppeteerGenerator: IPdfGenerator
 {
     private readonly PagePool _pagePool;
 
-    public PuppeteerPdfGenerator(PagePool pagePool)
+    public PuppeteerGenerator(PagePool pagePool)
     {
         _pagePool = pagePool;
     }
@@ -44,10 +44,21 @@ internal sealed class PuppeteerPdfGenerator: IPdfGenerator
                 Timeout = settings?.Timeout
             });
 
+            await page.EmulateMediaTypeAsync(MediaType.Screen);
+
             var result = await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions());
 
             return result;
         });
+
+        if (pdfStream is null)
+        {
+            return new PdfGenErrorResult
+            {
+                Code = "01",
+                Message = "Internal error"
+            };
+        }
 
         return new PdfGenSuccessResult
         {

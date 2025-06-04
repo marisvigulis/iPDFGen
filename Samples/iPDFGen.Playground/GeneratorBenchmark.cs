@@ -34,6 +34,7 @@ public class GeneratorBenchmark
     public async ValueTask PuppeteerSingle()
     {
         await using var stream = await _puppeteerGenerator.Generate();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
     }
 
     [Benchmark]
@@ -51,12 +52,14 @@ public class GeneratorBenchmark
     public async ValueTask PuppeteerSingleByUrl()
     {
         await using var stream = await _puppeteerGenerator.GenerateByUrl();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
     }
 
     [Benchmark]
     public async ValueTask PlaywrightSingle()
     {
         await using var stream = await _playwrightGenerator.Generate();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
     }
 
     [Benchmark]
@@ -74,5 +77,6 @@ public class GeneratorBenchmark
     public async ValueTask PlaywrightSingleByUrl()
     {
         await using var stream = await _playwrightGenerator.GenerateByUrl();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
     }
 }
