@@ -26,11 +26,14 @@ jobs:
       - name: Extract version from branch name
         id: extract_version
         run: |
-          BRANCH_NAME="${GITHUB_REF_NAME}"
+          BRANCH_NAME="${{ github.event.workflow_run.head_branch }}"
+          echo "Branch name: $BRANCH_NAME"
           if [[ $BRANCH_NAME =~ releases/([0-9]+\.[0-9]+\.[0-9]+) ]]; then
             echo "VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+            echo "Extracted version: ${BASH_REMATCH[1]}"
           else
-            echo "VERSION=$(date +%Y%m%d)_${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "Error: Branch name doesn't match expected format" >&2
+            exit 1
           fi
 
       - name: Build and tag Docker image
