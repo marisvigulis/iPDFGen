@@ -1,8 +1,8 @@
-name: Docker Image CI
+name: Publish to Dockerhub
 
 on:
   workflow_run:
-    workflows: ["build and test"]
+    workflows: [ "build and test" ]
     types:
       - completed
     branches:
@@ -13,32 +13,34 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - name: Extract version from branch name
-      id: extract_version
-      run: |
-        BRANCH_NAME="${GITHUB_REF_NAME}"
-        if [[ $BRANCH_NAME =~ releases/([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-          echo "VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-        else
-          echo "VERSION=$(date +%Y%m%d)_${{ github.run_number }}" >> $GITHUB_OUTPUT
-        fi
-    
-    - name: Build and tag Docker image
-      run: |
-        IMAGE_TAG=${{ steps.extract_version.outputs.VERSION }}
-        docker build . --file Dockerfile --tag marisvigulis/ipdfgenserver:$IMAGE_TAG
-        docker tag marisvigulis/ipdfgenserver:$IMAGE_TAG marisvigulis/ipdfgenserver:latest
-    
-    - name: Push Docker image to Docker Hub
-      run: |
-        IMAGE_TAG=${{ steps.extract_version.outputs.VERSION }}
-        docker push marisvigulis/ipdfgenserver:$IMAGE_TAG
-        docker push marisvigulis/ipdfgenserver:latest
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }} # Checkout the branch that triggered the workflow
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version from branch name
+        id: extract_version
+        run: |
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+          if [[ $BRANCH_NAME =~ releases/([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            echo "VERSION=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=$(date +%Y%m%d)_${{ github.run_number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build and tag Docker image
+        run: |
+          IMAGE_TAG=${{ steps.extract_version.outputs.VERSION }}
+          docker build . --file Dockerfile --tag marisvigulis/ipdfgenserver:$IMAGE_TAG
+          docker tag marisvigulis/ipdfgenserver:$IMAGE_TAG marisvigulis/ipdfgenserver:latest
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          IMAGE_TAG=${{ steps.extract_version.outputs.VERSION }}
+          docker push marisvigulis/ipdfgenserver:$IMAGE_TAG
+          docker push marisvigulis/ipdfgenserver:latest
