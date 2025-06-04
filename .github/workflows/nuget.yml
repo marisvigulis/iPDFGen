@@ -20,7 +20,6 @@ jobs:
         run: echo "VERSION=$(echo $GITHUB_REF_NAME | sed 's/releases\///')" >> $GITHUB_OUTPUT
 
       - name: publish iPDFGen.Core to Nuget
-        id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
@@ -53,7 +52,6 @@ jobs:
           # INCLUDE_SYMBOLS: false
 
       - name: publish iPDFGen.Playwright to Nuget
-        id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
@@ -86,7 +84,6 @@ jobs:
           # INCLUDE_SYMBOLS: false
 
       - name: publish iPDFGen.Puppeteer to Nuget
-        id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
