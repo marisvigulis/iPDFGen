@@ -38,7 +38,7 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask PuppeteerMany()
+    public async ValueTask PuppeteerEighty()
     {
         await Parallel.ForEachAsync(new int[Iterations],
             new ParallelOptions
@@ -63,7 +63,7 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask PlaywrightMany()
+    public async ValueTask PlaywrightEighty()
     {
         await Parallel.ForEachAsync(new int[Iterations],
             new ParallelOptions

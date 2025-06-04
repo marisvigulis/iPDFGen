@@ -7,22 +7,23 @@ using iPDFGen.Server;
 using iPDFGen.Server.Middlewares;
 using iPDFGen.Server.Models;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPdfGen(s =>
+builder.Services.AddPdfGen(options =>
 {
-    s
+    options
         .SetMaxDegreeOfParallelism(EnvironmentVariables.LoadMaxDegreeOfParallelism())
         .SetDefaultTimeout(EnvironmentVariables.LoadDefaultTimeout());
 
     switch (EnvironmentVariables.LoadPdfGenProvider())
     {
         case PdfGenProvider.Playwright:
-            s.UsePlaywright();
+            options.UsePlaywright();
             break;
         case PdfGenProvider.Puppeteer:
-            s.UsePuppeteer();
+            options.UsePuppeteer();
             break;
         default:
             throw new ArgumentOutOfRangeException();
@@ -39,10 +40,10 @@ if (!args.Any())
 
     app.MapGet("api/alive", () => "I'm alive");
 
-    app.MapPost("/api/files/pdf", async (HttpContext context, [FromBody] PdfGenRequest request) =>
+    app.MapPost("/api/pdf", async (HttpContext context, [FromBody] PdfGenRequest request) =>
     {
         var generator = context.RequestServices.GetRequiredService<IPdfGenerator>();
-        var result = await generator.Generate(request.Body, request.Settings);
+        OneOf<PdfGenSuccessResult, PdfGenErrorResult> result = await generator.Generate(request.Body, request.Settings);
 
         return result.Match(
             success => Results.File(success.Stream, "application/pdf", "result.pdf"),

@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDE84205-B359-4F2E-89B1-F069E80094F9}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iPDFGen.Server", "iPDFGen.Server\iPDFGen.Server.csproj", "{93F3110A-DFC7-4146-9794-99343A816025}"

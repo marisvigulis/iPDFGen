@@ -1,0 +1,11 @@
+<Project>
+    <PropertyGroup>
+        <Version>8.0.1</Version>
+        <Authors>Maris Vigulis</Authors>
+        <Company>iPDFSharp</Company>
+        <Description>A Microsoft.Playwright provider for iPDFGen</Description>
+        <PackageTags>oss;pdf;dotnet</PackageTags>
+        <RepositoryUrl>https://github.com/marisvigulis/iPDFGen</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>
