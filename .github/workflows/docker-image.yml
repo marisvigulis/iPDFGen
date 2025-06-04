@@ -2,7 +2,7 @@ name: Publish to Dockerhub
 
 on:
   workflow_run:
-    workflows: [ "Build and test" ]
+    workflows: [ "Build and Test" ]
     types:
       - completed
     branches:
