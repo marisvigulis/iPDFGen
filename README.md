@@ -30,7 +30,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
    ```csharp
    
    OneOf<PdfGenSuccessResult, PdfGenErrorResult> generatorResult = await app.Service
-       .GetRequiredServices<IPdfGenerator>()
+       .GetRequiredService<IPdfGenerator>()
        .Generate("<h1>Hello World!</h1>")
        
         Stream resultStream = result.Match(
@@ -56,7 +56,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
 ### Steps
 1. Install the core iPDFGen package:
    ```bash
-   dotnet add package iPDFGen
+   dotnet add package iPDFGen.Core
    ```
 2. Choose a provider and install its package:
    ```bash
