@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace iPDFGen.Playground.Providers;
 
-public abstract class GeneratorBase
+public abstract class GeneratorBase: IDisposable
 {
     private ServiceProvider _provider = null!;
     private Dictionary<string, string> _markups = null!;
     private string _defaultTemplate = null!;
-    private const string DefaultTemplateUrl = "https://raw.githubusercontent.com/marisvigulis/iPDFGen/refs/heads/mv/initial_core_with_puppeteer/Samples/iPDFGen.Playground/Templates/resume.A4.xs.html?token=GHSAT0AAAAAADCZFZEU2OCUFBCMHKMPWTWE2B6UCJQ";
+    private const string DefaultTemplateUrl = "https://raw.githubusercontent.com/marisvigulis/iPDFGen/refs/heads/main/Samples/iPDFGen.Playground/Templates/resume.A4.xs.html";
 
     protected async ValueTask SetupInternal(Action<PdfGenOptions> register)
     {
@@ -30,7 +30,7 @@ public abstract class GeneratorBase
 
         await _provider
             .GetRequiredService<IPdfGenInitializer>()
-            .Initialize();
+            .InitializeAsync();
 
          await LoadEmbeddedResources();
     }
@@ -39,12 +39,12 @@ public abstract class GeneratorBase
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
-            .Generate(markup ?? _defaultTemplate);
+            .GenerateAsync(markup ?? _defaultTemplate);
 
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
                 result => result,
-                _ => throw new Exception("Failed to generate PDF")
+                err => throw new Exception($"Failed to generate PDF, {err.Code}, {err.Message}")
             );
         return result.Stream;
     }
@@ -53,12 +53,12 @@ public abstract class GeneratorBase
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
-            .GenerateByUrl(url);
+            .GenerateByUrlAsync(url);
 
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
                 result => result,
-                _ => throw new Exception("Failed to generate PDF")
+                err => throw new Exception($"Failed to generate PDF, {err.Code}, {err.Message}")
             );
         return result.Stream;
     }
@@ -82,8 +82,8 @@ public abstract class GeneratorBase
         _defaultTemplate = _markups.First().Value;
     }
 
-    public ValueTask DisposeAsync()
+    public void Dispose()
     {
-        return _provider.DisposeAsync();
+        _provider.Dispose();
     }
 }

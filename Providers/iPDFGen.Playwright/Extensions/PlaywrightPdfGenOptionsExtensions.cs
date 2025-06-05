@@ -1,7 +1,8 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
-using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Playwright;
 
 namespace iPDFGen.Playwright.Extensions;
 
@@ -11,7 +12,7 @@ public static class PlaywrightPdfGenOptionsExtensions
     {
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, PlaywrightInitializer>();
         options.ServiceCollection.AddSingleton<IPdfGenerator, PlaywrightGenerator>();
-        options.ServiceCollection.AddSingleton<PagePool, PagePool>();
+        options.ServiceCollection.AddSingleton<IGeneratorPool<IPage>, PlaywrightGeneratorPool>();
 
         return options;
     }

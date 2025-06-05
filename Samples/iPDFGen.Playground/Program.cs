@@ -3,6 +3,6 @@ using iPDFGen.Playground;
 
 BenchmarkRunner.Run<GeneratorBenchmark>();
 
-// var playwright = new PlaywrightGenerator();
-// await playwright.Setup("resume.A4.html");
-// var a = playwright.Generate();
+// var remoteServer = new RemoteServerGenerator();
+// await remoteServer.Setup();
+// await remoteServer.Generate();

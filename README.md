@@ -64,7 +64,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
    dotnet add package iPDFGen.Playwright
    # For Puppeteer
    dotnet add package iPDFGen.Puppeteer
-   # For Remote Server
+   # For Remote Server, before using this provider please refer to Remote server setup section
    dotnet add package iPDFGen.RemoteServer
    ```
 3. Register iPDFGen in your `ServiceCollection`:
@@ -74,7 +74,12 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
        options
            .UsePlaywright() 
            // .UsePuppeteer() // For Puppeteer
-           // .UseRemoteServer("http://127.0.0.1:8080", "YourSharedSecret123456780$") // For remote server
+           // .UseRemoteServer(new RemoteServerSettings
+           // {
+           //    BaseUrl = "http://127.0.0.1:8080",
+           //    CompressionType = CompressionType.None,
+           //    SharedSecret = "Your shared secret"
+           // }) // For remote server
            .SetMaxDegreeOfParallelism(16)
            .SetDefaultTimeout(TimeSpan.FromSeconds(30));
    });
@@ -88,7 +93,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
 |-------------------------|--------------------------|-------------------|----------------------------------------------------------------------|
 | `iPDFGen.Puppeteer`     | Puppeteer-Sharp          | ✅ Supported       | Fast for single-page PDFs, requires Chromium.                         |
 | `iPDFGen.Playwright`    | Microsoft Playwright     | ✅ Supported       | Best performance for multi-page PDFs, supports multiple browsers.     |
-| `iPDFGen.RemoteServer`  | HttpClient               | 🚧 In Development | Ideal for offloading PDF generation to a remote server.               |
+| `iPDFGen.RemoteServer`  | HttpClient               | ✅ Supported | Ideal for offloading PDF generation to a remote server.               |
 | More providers          | TBD                      | 🚧 Planned        | Contributions welcome!                                                |
 
 ## Benchmarks
@@ -97,19 +102,39 @@ Benchmarks were conducted using a 2-page fake CV (`resume.A4.xs.html`) on a Linu
 AMD Ryzen 9 7950X and .NET 8.0.16. The table below compares performance for generating one (`Single`) or eighty (`Eighty`) PDFs,
 and single PDFs from URLs (`SingleByUrl`).
 
-| Provider           | Scenario              | Mean Time    | Memory Allocated | Notes                               |
-|--------------------|-----------------------|--------------|------------------|-------------------------------------|
-| Puppeteer          | Single PDF            | 13.72 ms     | 763.56 KB        | Moderate speed, higher memory use.  |
-| Puppeteer          | Eighty PDFs           | 179.66 ms    | 61,086.03 KB     |  Scales poorly for bulk generation. |
-| Puppeteer          | Single PDF by URL     |  26.94 ms    | 202.55 KB        | Slower due to URL fetching.         |
-| **Playwright**     | **Single PDF**        | **6.67 ms**  | **386.87 KB**    | **Fastest for single PDFs.**        |
-| **Playwright**     | **Eighty PDFs**       | **79.53 ms** | **31,912.14 KB** | **Efficient for bulk generation.**  |
-| **Playwright**     | **Single PDF by URL** | **4.66 ms**  | **126.79 KB**    | **Best for URL-based generation.**  |
+| Provider      | Method              | Mean       | Allocated   |
+|---------------|---------------------|------------|-------------|
+| Puppeteer     | Single              |  13.824 ms |   766.55 KB |
+| Playwright    | Single              |   6.586 ms |   385.35 KB |
+| RemoteServer  | Single              |   7.118 ms |   204.77 KB |
+| Puppeteer     | SingleByUrl         |  35.901 ms |   486.49 KB |
+| Playwright    | SingleByUrl         |  12.030 ms |   330.33 KB |
+| RemoteServer  | SingleByUrl         |  11.558 ms |    93.94 KB |
+| Puppeteer     | Eighty              | 180.919 ms | 61352.66 KB |
+| Playwright    | Eighty              |  79.948 ms | 31759.61 KB |
+| RemoteServer  | Eighty              |  89.197 ms | 16394.76 KB |
 
 **Key Observations**:
 - Playwright outperforms Puppeteer in all scenarios, especially for bulk generation.
 - Memory usage is significantly lower with Playwright for bulk tasks.
-- URL-based generation is faster with Playwright due to optimized browser handling.
+- The RemoteServer provider offers a good balance of performance and memory usage, especially for URL-based generation.
+- Puppeteer's SingleByUrl method shows significantly higher latency compared to other methods.
+
+## Remote server setup
+
+Server is dockerized and pushed into Dockerhub [here](https://hub.docker.com/repository/docker/marisvigulis/ipdfgenserver/general)
+Feel free to pull it and setup into any environment that supports Docker images.
+Supports next Environment variables:
+
+| Variable name                  | Default value               | Description                                                                                  |
+|--------------------------------|-----------------------------|----------------------------------------------------------------------------------------------|
+| MAX_DEGREE_OF_PARALELLISM      | 16                          | How much parallel threads Server can handle, Recommendation to set to amount of vCores       |
+| DEFAULT_TIMEOUT                | 30                          | Amount in seconds to wait for PDF generation before failing with timout                      |
+| PDFGEN_PROVIDER                | Playwright                  | Provider to be used by PdfGen.Server to generate PDFs, Supported: Puppeteer/Playwright       |
+| **SHARED_SECRET**              | **MAGIC_STRING_$2123499**   | **(!) Please always define that value to some unique string, don't rely on a Default value** |
+
+Under the hood PdfGen.Server is running in HTTP mode, so it's your responsibility to delegate domain setup HTTPs inside your ingress/load-balancer.
+
 
 ## Troubleshooting
 

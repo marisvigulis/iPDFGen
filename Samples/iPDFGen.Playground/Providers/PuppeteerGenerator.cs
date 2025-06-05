@@ -2,7 +2,7 @@ using iPDFGen.Puppeteer.Extensions;
 
 namespace iPDFGen.Playground.Providers;
 
-public sealed class PuppeteerGenerator : GeneratorBase, IAsyncDisposable
+public sealed class PuppeteerGenerator : GeneratorBase
 {
     public ValueTask Setup()
     {
