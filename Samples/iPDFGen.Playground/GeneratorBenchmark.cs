@@ -10,6 +10,7 @@ public class GeneratorBenchmark
 {
     private PuppeteerGenerator _puppeteerGenerator = null!;
     private PlaywrightGenerator _playwrightGenerator = null!;
+    private RemoteServerGenerator _remoteServerGenerator = null!;
     private const int IterationsPerThread = 5;
     private static readonly int Iterations = PdfGenDefaults.MaxDegreeOfParallelism * IterationsPerThread;
 
@@ -21,6 +22,9 @@ public class GeneratorBenchmark
 
         _playwrightGenerator = new PlaywrightGenerator();
         await _playwrightGenerator.Setup();
+
+        _remoteServerGenerator = new RemoteServerGenerator();
+        await _remoteServerGenerator.Setup();
     }
 
     [GlobalCleanup]
@@ -28,12 +32,49 @@ public class GeneratorBenchmark
     {
         _puppeteerGenerator.Dispose();
         _playwrightGenerator.Dispose();
+        _remoteServerGenerator.Dispose();
     }
 
     [Benchmark]
     public async ValueTask PuppeteerSingle()
     {
         await using var stream = await _puppeteerGenerator.Generate();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
+    }
+
+    [Benchmark]
+    public async ValueTask PlaywrightSingle()
+    {
+        await using var stream = await _playwrightGenerator.Generate();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
+    }
+
+    [Benchmark]
+    public async ValueTask RemoteServerSingle()
+    {
+        await using var stream = await _remoteServerGenerator.Generate();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
+    }
+
+
+    [Benchmark]
+    public async ValueTask PuppeteerSingleByUrl()
+    {
+        await using var stream = await _puppeteerGenerator.GenerateByUrl();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
+    }
+
+    [Benchmark]
+    public async ValueTask PlaywrightSingleByUrl()
+    {
+        await using var stream = await _playwrightGenerator.GenerateByUrl();
+        await stream.ReadExactlyAsync(new byte[stream.Length]);
+    }
+
+    [Benchmark]
+    public async ValueTask RemoteServerSingleByUrl()
+    {
+        await using var stream = await _remoteServerGenerator.GenerateByUrl();
         await stream.ReadExactlyAsync(new byte[stream.Length]);
     }
 
@@ -49,20 +90,6 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask PuppeteerSingleByUrl()
-    {
-        await using var stream = await _puppeteerGenerator.GenerateByUrl();
-        await stream.ReadExactlyAsync(new byte[stream.Length]);
-    }
-
-    [Benchmark]
-    public async ValueTask PlaywrightSingle()
-    {
-        await using var stream = await _playwrightGenerator.Generate();
-        await stream.ReadExactlyAsync(new byte[stream.Length]);
-    }
-
-    [Benchmark]
     public async ValueTask PlaywrightEighty()
     {
         await Parallel.ForEachAsync(new int[Iterations],
@@ -74,9 +101,13 @@ public class GeneratorBenchmark
     }
 
     [Benchmark]
-    public async ValueTask PlaywrightSingleByUrl()
+    public async ValueTask RemoteServerEighty()
     {
-        await using var stream = await _playwrightGenerator.GenerateByUrl();
-        await stream.ReadExactlyAsync(new byte[stream.Length]);
+        await Parallel.ForEachAsync(new int[Iterations],
+            new ParallelOptions
+            {
+                MaxDegreeOfParallelism = PdfGenDefaults.MaxDegreeOfParallelism
+            },
+            async (_, _) => await RemoteServerSingle());
     }
 }

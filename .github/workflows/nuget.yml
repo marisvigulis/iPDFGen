@@ -44,5 +44,8 @@ jobs:
       - name: Pack iPDFGen.Playwright
         run: dotnet pack Providers/iPDFGen.Playwright/iPDFGen.Playwright.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
+      - name: Pack iPDFGen.RemoteServer
+        run: dotnet pack Providers/iPDFGen.RemoteServer/iPDFGen.RemoteServer.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
+
       - name: Publish to NuGet
         run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

@@ -13,7 +13,7 @@ public sealed class PdfGenMetrics: IPdfGenMetrics
     private long _totalRequests;
     private long _completedRequests;
 
-    public PdfGenMetrics(PdfGenOptions options)
+    public PdfGenMetrics(PdfGenRegistrationSettings options)
     {
         _max = options.MaxDegreeOfParallelism;
     }

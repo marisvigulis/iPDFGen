@@ -18,8 +18,7 @@ public static class EnvironmentVariables
     }
 
     public static TimeSpan LoadDefaultTimeout()
-    {
-        var maxDegreeOfParallelismStr = Environment.GetEnvironmentVariable("DEFAULT_TIMEOUT");
+    {        var maxDegreeOfParallelismStr = Environment.GetEnvironmentVariable("DEFAULT_TIMEOUT");
 
         if (maxDegreeOfParallelismStr is not null && double.TryParse(maxDegreeOfParallelismStr, out var timeoutInSeconds))
         {

@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Mime;
 using System.Text;
+using Ardalis.GuardClauses;
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
@@ -14,35 +16,19 @@ namespace iPDFGen.RemoteServer;
 
 public class RemoteServerGenerator : IPdfGenerator
 {
-    private readonly RemoteServerGeneratorPool _remoteServerGeneratorPool;
+    private readonly IGeneratorPool<bool> _remoteServerGeneratorPool;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly RemoteServerSettings _serverSettings;
     private readonly Uri _generateUri;
-    private readonly Uri _usageUri;
-
     public RemoteServerGenerator(
-        RemoteServerGeneratorPool remoteServerGeneratorPool,
+        IGeneratorPool<bool> remoteServerGeneratorPool,
         IHttpClientFactory httpClientFactory,
         RemoteServerSettings serverSettings)
     {
         _remoteServerGeneratorPool = remoteServerGeneratorPool;
         _httpClientFactory = httpClientFactory;
         _serverSettings = serverSettings;
-        _generateUri = new Uri(new Uri(_serverSettings.BaseUrl), new Uri("/api/pdf"));
-        _usageUri = new Uri(new Uri(_serverSettings.BaseUrl), new Uri("/api/usage"));
-    }
-
-    public async ValueTask<OneOf<PdfGenUsage, PdfGenErrorResult>> UsageAsync()
-    {
-        var client = _httpClientFactory.CreateClient("RemoteServer");
-        var response = await client.GetAsync(_usageUri);
-
-        if (response.IsSuccessStatusCode)
-        {
-            return JsonConvert.DeserializeObject<PdfGenUsage>(await response.Content.ReadAsStringAsync());
-        }
-
-        return HandleError(await response.Content.ReadAsStringAsync(), response.StatusCode);
+        _generateUri = new Uri(new Uri(_serverSettings.BaseUrl, UriKind.Absolute), new Uri("/api/pdf", UriKind.Relative));
     }
 
     public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateAsync(string markup,
@@ -97,6 +83,10 @@ public class RemoteServerGenerator : IPdfGenerator
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         }), Encoding.UTF8, MediaTypeNames.Application.Json);
+
+        Guard.Against.Null(_serverSettings.SharedSecret);
+
+        httpContent.Headers.Add(PdfGenServerConstants.SharedSecretHeaderKey, _serverSettings.SharedSecret);
 
         if (_serverSettings.CompressionType == CompressionType.None)
         {

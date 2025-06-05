@@ -8,13 +8,13 @@ namespace iPDFGen.RemoteServer.Extensions;
 
 public static class RemoteServerPdfGenOptionsExtensions
 {
-    public static PdfGenOptions UseRemoteServer(this PdfGenOptions options, RemoteServerSettings settings)
+    public static PdfGenOptions UseRemoteServer(this PdfGenOptions options, RemoteServerSettings remoteServerSettings)
     {
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, RemoteServerInitializer>();
         options.ServiceCollection.AddSingleton<IPdfGenerator, RemoteServerGenerator>();
         options.ServiceCollection.AddSingleton<IGeneratorPool<bool>, RemoteServerGeneratorPool>();
-        options.ServiceCollection.AddSingleton(settings);
-
+        options.ServiceCollection.AddSingleton(remoteServerSettings);
+        options.ServiceCollection.AddHttpClient();
         return options;
     }
 }
