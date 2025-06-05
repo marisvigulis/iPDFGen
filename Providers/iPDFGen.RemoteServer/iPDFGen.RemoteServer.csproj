@@ -10,17 +10,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\iPDFGen.Core\iPDFGen.Core.csproj" />
-      <ProjectReference Include="..\iPDFGen.Server.Contracts\iPDFGen.Server.Contracts.csproj" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\iPDFGen.Core\iPDFGen.Core.csproj" />
+      <ProjectReference Include="..\..\iPDFGen.Server.Contracts\iPDFGen.Server.Contracts.csproj" />
     </ItemGroup>
 
 

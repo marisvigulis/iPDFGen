@@ -18,9 +18,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\iPDFGen.Core\iPDFGen.Core.csproj" />
-      <ProjectReference Include="..\iPDFGen.Playwright\iPDFGen.Playwright.csproj" />
-      <ProjectReference Include="..\iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj" />
       <ProjectReference Include="..\iPDFGen.Server.Contracts\iPDFGen.Server.Contracts.csproj" />
+      <ProjectReference Include="..\Providers\iPDFGen.Playwright\iPDFGen.Playwright.csproj" />
+      <ProjectReference Include="..\Providers\iPDFGen.Puppeteer\iPDFGen.Puppeteer.csproj" />
     </ItemGroup>
 
 </Project>

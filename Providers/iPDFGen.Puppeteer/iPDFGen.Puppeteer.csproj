@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\iPDFGen.Core\iPDFGen.Core.csproj" />
+      <ProjectReference Include="..\..\iPDFGen.Core\iPDFGen.Core.csproj" />
     </ItemGroup>
 </Project>
