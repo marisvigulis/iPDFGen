@@ -38,6 +38,9 @@ jobs:
       - name: Pack iPDFGen.Core
         run: dotnet pack iPDFGen.Core/iPDFGen.Core.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
+      - name: Pack iPDFGen.Server.Contracts
+        run: dotnet pack iPDFGen.Server.Contracts/iPDFGen.Server.Contracts.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
+
       - name: Pack iPDFGen.Puppeteer
         run: dotnet pack Providers/iPDFGen.Puppeteer/iPDFGen.Puppeteer.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
