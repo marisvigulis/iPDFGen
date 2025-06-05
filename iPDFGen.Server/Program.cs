@@ -43,7 +43,7 @@ if (args.Length == 0)
     app.MapGet("api/usage",
         async (HttpContext context) =>
         {
-            return await context.RequestServices.GetRequiredService<IPdfGenerator>().UsageAsync();
+            return await context.RequestServices.GetRequiredService<IPdfGenMetrics>().GetUsageAsync();
         });
 
     app.MapPost("/api/pdf", async (HttpContext context, [FromBody] PdfGenRequest request) =>

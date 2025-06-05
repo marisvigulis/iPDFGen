@@ -1,8 +1,8 @@
 namespace iPDFGen.Core.Models;
 
-public readonly struct UsageModel(
+public record PdfGenUsage(
     int Available,
-    long Used,
+    int Used,
     int Max,
     long TotalProcessed,
     long TotalFailed,

@@ -1,3 +1,4 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 
 namespace iPDFGen.RemoteServer;

@@ -1,3 +1,4 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Models;
 using PuppeteerSharp;
@@ -8,7 +9,7 @@ internal sealed class PuppeteerGeneratorPool : GeneratorPool<IPage>
 {
     private IBrowser? _browser;
 
-    public PuppeteerGeneratorPool(PdfGenRegistrationSettings pdfGenOptions) : base(pdfGenOptions)
+    public PuppeteerGeneratorPool(PdfGenRegistrationSettings pdfGenOptions, IPdfGenMetrics metrics) : base(pdfGenOptions, metrics)
     {
     }
 

@@ -17,7 +17,6 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
         _pagePool = pagePool;
     }
 
-    public async ValueTask<OneOf<UsageModel, PdfGenErrorResult>> UsageAsync() => await _pagePool.UsageAsync();
 
     public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateAsync(string markup, PdfGeneratorSettings? settings = null)
     {

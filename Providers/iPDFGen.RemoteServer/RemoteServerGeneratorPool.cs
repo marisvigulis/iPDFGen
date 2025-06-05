@@ -1,3 +1,4 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Models;
 
@@ -5,8 +6,8 @@ namespace iPDFGen.RemoteServer;
 
 public class RemoteServerGeneratorPool: GeneratorPool<bool>
 {
-    public RemoteServerGeneratorPool(PdfGenRegistrationSettings pdfGenOptions)
-        : base(pdfGenOptions)
+    public RemoteServerGeneratorPool(PdfGenRegistrationSettings pdfGenOptions, IPdfGenMetrics metrics)
+        : base(pdfGenOptions, metrics)
     {
     }
 

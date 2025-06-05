@@ -1,3 +1,4 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Models;
 using Microsoft.Playwright;
@@ -11,7 +12,7 @@ internal sealed class PlaywrightGeneratorPool : GeneratorPool<IPage>
 
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    public PlaywrightGeneratorPool(PdfGenRegistrationSettings pdfGenOptions) : base(pdfGenOptions)
+    public PlaywrightGeneratorPool(PdfGenRegistrationSettings pdfGenOptions, IPdfGenMetrics metrics) : base(pdfGenOptions, metrics)
     {
     }
 

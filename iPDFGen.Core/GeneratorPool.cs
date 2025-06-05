@@ -1,16 +1,15 @@
 using System.Threading.Channels;
+using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Models;
 using OneOf;
 
-namespace iPDFGen.Core.Abstractions;
+namespace iPDFGen.Core;
 
 public interface IGeneratorPool<out T>
 {
-    ValueTask<UsageModel> UsageAsync();
-
     ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> RunAsync(
-        Func<T, CancellationToken, Task<OneOf<PdfGenSuccessResult, PdfGenErrorResult>>> func,
+        Func<T, CancellationToken, ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>>> func,
         CancellationToken cancellationToken = default);
 
     ValueTask InitializeAsync();
@@ -22,69 +21,51 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
     private volatile bool _isInitialized;
     private readonly PdfGenRegistrationSettings _pdfGenOptions;
     private readonly SemaphoreSlim _initSemaphore = new(1, 1);
-    private long _totalRequests;
-    private long _activeRequests;
-    private long _completedRequests;
-    private long _failedRequests;
+    private readonly IPdfGenMetrics _genMetrics;
 
-    protected GeneratorPool(PdfGenRegistrationSettings pdfGenOptions)
+    protected GeneratorPool(PdfGenRegistrationSettings pdfGenOptions, IPdfGenMetrics genMetrics)
     {
         _pdfGenOptions = pdfGenOptions;
+        _genMetrics = genMetrics;
         _processingUnits = Channel.CreateBounded<T>(pdfGenOptions.MaxDegreeOfParallelism);
     }
 
-    public virtual ValueTask<UsageModel> UsageAsync()
-    {
-        var active = Interlocked.Read(ref _activeRequests);
-        var total = Interlocked.Read(ref _totalRequests);
-        var completed = Interlocked.Read(ref _completedRequests);
-        var available = _processingUnits.Reader.CanCount
-            ? _processingUnits.Reader.Count
-            : 0;
-
-        var usageModel = new UsageModel(
-            Available: available,
-            Used: active,
-            Max: _pdfGenOptions.MaxDegreeOfParallelism,
-            TotalProcessed: completed,
-            TotalFailed: _failedRequests,
-            TotalRequests: total
-        );
-        return ValueTask.FromResult(usageModel);
-    }
-
     public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> RunAsync(
-        Func<T, CancellationToken, Task<OneOf<PdfGenSuccessResult, PdfGenErrorResult>>> func,
+        Func<T, CancellationToken, ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>>> func,
         CancellationToken cancellationToken = default)
     {
-        Interlocked.Increment(ref _totalRequests);
+
         await EnsureInitializedAsync();
         var processingUnit = await _processingUnits.Reader.ReadAsync(cancellationToken);
 
-        Interlocked.Increment(ref _activeRequests);
+        _genMetrics.Start();
         try
         {
             var result = await func(processingUnit, cancellationToken);
 
-            result.Match(
-                _ => Interlocked.Increment(ref _completedRequests),
-                _ => Interlocked.Increment(ref _failedRequests)
-            );
+            if (result.IsT0)
+            {
+                _genMetrics.Success();
+            }
+            else
+            {
+                _genMetrics.Fail();
+            }
+
             return result;
         }
-        catch (OperationCanceledException cancelledException)
+        catch (OperationCanceledException)
         {
-            Interlocked.Increment(ref _failedRequests);
+            _genMetrics.Fail();
             return new PdfGenErrorResult("0001", "Operation was cancelled");
         }
         catch (Exception ex)
         {
-            Interlocked.Increment(ref _failedRequests);
+            _genMetrics.Fail();
             return new PdfGenErrorResult("0000", $"GeneratorPool internal error: {ex}");
         }
         finally
         {
-            Interlocked.Decrement(ref _activeRequests);
             await _processingUnits.Writer.WriteAsync(processingUnit, CancellationToken.None);
         }
     }

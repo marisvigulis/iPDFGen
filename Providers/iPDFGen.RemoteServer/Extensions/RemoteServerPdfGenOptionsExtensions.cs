@@ -1,3 +1,4 @@
+using iPDFGen.Core;
 using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Extensions;
 using iPDFGen.RemoteServer.Models;

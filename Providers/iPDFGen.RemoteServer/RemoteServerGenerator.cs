@@ -32,14 +32,14 @@ public class RemoteServerGenerator : IPdfGenerator
         _usageUri = new Uri(new Uri(_serverSettings.BaseUrl), new Uri("/api/usage"));
     }
 
-    public async ValueTask<OneOf<UsageModel, PdfGenErrorResult>> UsageAsync()
+    public async ValueTask<OneOf<PdfGenUsage, PdfGenErrorResult>> UsageAsync()
     {
         var client = _httpClientFactory.CreateClient("RemoteServer");
         var response = await client.GetAsync(_usageUri);
 
         if (response.IsSuccessStatusCode)
         {
-            return JsonConvert.DeserializeObject<UsageModel>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<PdfGenUsage>(await response.Content.ReadAsStringAsync());
         }
 
         return HandleError(await response.Content.ReadAsStringAsync(), response.StatusCode);
