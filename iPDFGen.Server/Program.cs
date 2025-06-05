@@ -51,8 +51,8 @@ if (args.Length == 0)
         var generator = context.RequestServices.GetRequiredService<IPdfGenerator>();
 
         var result = request.IsGenerationByHtml
-            ? await generator.Generate(request.Body!, request.Settings)
-            : await generator.GenerateByUrl(request.Url!, request.Settings);
+            ? await generator.GenerateAsync(request.Body!, request.Settings)
+            : await generator.GenerateByUrlAsync(request.Url!, request.Settings);
 
         return result.Match(
             success => Results.File(success.Stream, "application/pdf", "result.pdf"),

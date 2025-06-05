@@ -32,9 +32,20 @@ public class RemoteServerGenerator : IPdfGenerator
         _usageUri = new Uri(new Uri(_serverSettings.BaseUrl), new Uri("/api/usage"));
     }
 
-    public ValueTask<UsageModel> UsageAsync() => _remoteServerGeneratorPool.UsageAsync();
+    public async ValueTask<OneOf<UsageModel, PdfGenErrorResult>> UsageAsync()
+    {
+        var client = _httpClientFactory.CreateClient("RemoteServer");
+        var response = await client.GetAsync(_usageUri);
 
-    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup,
+        if (response.IsSuccessStatusCode)
+        {
+            return JsonConvert.DeserializeObject<UsageModel>(await response.Content.ReadAsStringAsync());
+        }
+
+        return HandleError(await response.Content.ReadAsStringAsync(), response.StatusCode);
+    }
+
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateAsync(string markup,
         PdfGeneratorSettings? settings = null)
     {
         return _remoteServerGeneratorPool.RunAsync(async (_, cancellationToken) =>
@@ -56,7 +67,7 @@ public class RemoteServerGenerator : IPdfGenerator
     }
 
 
-    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url,
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrlAsync(string url,
         PdfGeneratorSettings? settings = null)
     {
         return _remoteServerGeneratorPool.RunAsync(async (_, cancellationToken) =>

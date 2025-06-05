@@ -39,7 +39,7 @@ public abstract class GeneratorBase: IDisposable
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
-            .Generate(markup ?? _defaultTemplate);
+            .GenerateAsync(markup ?? _defaultTemplate);
 
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
@@ -53,7 +53,7 @@ public abstract class GeneratorBase: IDisposable
     {
         var pdfStream = await _provider
             .GetRequiredService<IPdfGenerator>()
-            .GenerateByUrl(url);
+            .GenerateByUrlAsync(url);
 
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
