@@ -32,6 +32,7 @@ internal sealed class PuppeteerGeneratorPool : GeneratorPool<IPage>
 
     public override void Dispose()
     {
+        base.Dispose();
         _browser?.Dispose();
     }
 }

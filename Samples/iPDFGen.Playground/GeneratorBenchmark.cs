@@ -24,10 +24,10 @@ public class GeneratorBenchmark
     }
 
     [GlobalCleanup]
-    public async ValueTask Cleanup()
+    public void Cleanup()
     {
-        await _puppeteerGenerator.DisposeAsync();
-        await _playwrightGenerator.DisposeAsync();
+        _puppeteerGenerator.Dispose();
+        _playwrightGenerator.Dispose();
     }
 
     [Benchmark]

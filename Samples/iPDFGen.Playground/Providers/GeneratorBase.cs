@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace iPDFGen.Playground.Providers;
 
-public abstract class GeneratorBase
+public abstract class GeneratorBase: IDisposable
 {
     private ServiceProvider _provider = null!;
     private Dictionary<string, string> _markups = null!;
@@ -44,7 +44,7 @@ public abstract class GeneratorBase
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
                 result => result,
-                _ => throw new Exception("Failed to generate PDF")
+                err => throw new Exception($"Failed to generate PDF, {err.Code}, {err.Message}")
             );
         return result.Stream;
     }
@@ -58,7 +58,7 @@ public abstract class GeneratorBase
         var result =
             pdfStream.Match<PdfGenSuccessResult>(
                 result => result,
-                _ => throw new Exception("Failed to generate PDF")
+                err => throw new Exception($"Failed to generate PDF, {err.Code}, {err.Message}")
             );
         return result.Stream;
     }
@@ -82,8 +82,8 @@ public abstract class GeneratorBase
         _defaultTemplate = _markups.First().Value;
     }
 
-    public ValueTask DisposeAsync()
+    public void Dispose()
     {
-        return _provider.DisposeAsync();
+        _provider.Dispose();
     }
 }

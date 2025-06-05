@@ -1,3 +1,3 @@
 namespace iPDFGen.Core.Abstractions.Generator;
 
-public readonly struct PdfGenErrorResult(string Code, string Message);
+public record PdfGenErrorResult(string Code, string Message);

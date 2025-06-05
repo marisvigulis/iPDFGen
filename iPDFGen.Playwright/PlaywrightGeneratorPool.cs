@@ -34,6 +34,7 @@ internal sealed class PlaywrightGeneratorPool : GeneratorPool<IPage>
 
     public override void Dispose()
     {
+        base.Dispose();
         _playwright?.Dispose();
     }
 }

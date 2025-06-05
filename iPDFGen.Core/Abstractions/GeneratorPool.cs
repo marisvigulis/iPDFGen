@@ -74,6 +74,7 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
         }
         catch (OperationCanceledException cancelledException)
         {
+            Interlocked.Increment(ref _failedRequests);
             return new PdfGenErrorResult("0001", "Operation was cancelled");
         }
         catch (Exception ex)
@@ -87,7 +88,6 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
             await _processingUnits.Writer.WriteAsync(processingUnit, CancellationToken.None);
         }
     }
-
 
     public virtual async ValueTask InitializeAsync()
     {
@@ -127,5 +127,9 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
     /// <returns></returns>
     protected abstract ValueTask<T[]> InitializeProcessingUnitsAsync(PdfGenRegistrationSettings options);
 
-    public abstract void Dispose();
+    public virtual void Dispose()
+    {
+        _processingUnits.Writer.Complete();
+        _initSemaphore.Dispose();
+    }
 }
