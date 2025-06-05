@@ -117,7 +117,7 @@ and single PDFs from URLs (`SingleByUrl`).
 **Key Observations**:
 - Playwright outperforms Puppeteer in all scenarios, especially for bulk generation.
 - Memory usage is significantly lower with Playwright for bulk tasks.
-- The RemoteServer provider offers a good balance of performance and memory usage, especially for URL-based generation.
+- The RemoteServer provider offers a good balance of performance and memory usage with just a minor overhead in a comparison to Playwright provider.
 - Puppeteer's SingleByUrl method shows significantly higher latency compared to other methods.
 
 ## Remote server setup
