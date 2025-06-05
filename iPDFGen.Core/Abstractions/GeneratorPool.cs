@@ -7,11 +7,13 @@ namespace iPDFGen.Core.Abstractions;
 
 public interface IGeneratorPool<out T>
 {
-    ValueTask<UsageModel> Usage();
+    ValueTask<UsageModel> UsageAsync();
 
     ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> RunAsync(
         Func<T, CancellationToken, Task<OneOf<PdfGenSuccessResult, PdfGenErrorResult>>> func,
         CancellationToken cancellationToken = default);
+
+    ValueTask InitializeAsync();
 }
 
 public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
@@ -31,7 +33,7 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
         _processingUnits = Channel.CreateBounded<T>(pdfGenOptions.MaxDegreeOfParallelism);
     }
 
-    public virtual ValueTask<UsageModel> Usage()
+    public virtual ValueTask<UsageModel> UsageAsync()
     {
         var active = Interlocked.Read(ref _activeRequests);
         var total = Interlocked.Read(ref _totalRequests);
@@ -86,6 +88,21 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
         }
     }
 
+
+    public virtual async ValueTask InitializeAsync()
+    {
+        if (!_isInitialized)
+        {
+            var processingUnits = await InitializeProcessingUnitsAsync(_pdfGenOptions);
+            foreach (var processingUnit in processingUnits)
+            {
+                await _processingUnits.Writer.WriteAsync(processingUnit);
+            }
+
+            _isInitialized = true;
+        }
+    }
+
     private async ValueTask EnsureInitializedAsync()
     {
         if (_isInitialized)
@@ -96,16 +113,7 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
         await _initSemaphore.WaitAsync();
         try
         {
-            if (!_isInitialized)
-            {
-                var processingUnits = await InitializeAsync(_pdfGenOptions);
-                foreach (var processingUnit in processingUnits)
-                {
-                    await _processingUnits.Writer.WriteAsync(processingUnit);
-                }
-
-                _isInitialized = true;
-            }
+            await InitializeAsync();
         }
         finally
         {
@@ -114,10 +122,10 @@ public abstract class GeneratorPool<T> : IDisposable, IGeneratorPool<T>
     }
 
     /// <summary>
-    /// This method shall initialize _processingUnits
+    /// This method shall return processing units, will get called once per application lifecycle
     /// </summary>
     /// <returns></returns>
-    protected abstract ValueTask<T[]> InitializeAsync(PdfGenRegistrationSettings options);
+    protected abstract ValueTask<T[]> InitializeProcessingUnitsAsync(PdfGenRegistrationSettings options);
 
     public abstract void Dispose();
 }

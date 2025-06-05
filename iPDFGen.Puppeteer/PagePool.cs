@@ -1,25 +1,18 @@
-using System.Collections.Concurrent;
-using iPDFGen.Core;
-using iPDFGen.Core.Extensions;
+using iPDFGen.Core.Abstractions;
 using iPDFGen.Core.Models;
 using PuppeteerSharp;
 
 namespace iPDFGen.Puppeteer;
 
-internal sealed class PagePool : IAsyncDisposable
+internal sealed class PuppeteerGeneratorPool : GeneratorPool<IPage>
 {
     private IBrowser? _browser;
-    private readonly BlockingCollection<IPage> _pages = new();
-    private static readonly SemaphoreSlim Semaphore = new(1, 1);
-    private readonly PdfGenRegistrationSettings _pdfGenOptions;
 
-    public PagePool(PdfGenRegistrationSettings pdfGenOptions)
+    public PuppeteerGeneratorPool(PdfGenRegistrationSettings pdfGenOptions) : base(pdfGenOptions)
     {
-        _pdfGenOptions = pdfGenOptions;
     }
 
-
-    internal async ValueTask Initialize()
+    protected override async ValueTask<IPage[]> InitializeProcessingUnitsAsync(PdfGenRegistrationSettings options)
     {
         var browserFetcher = new BrowserFetcher
         {
@@ -32,46 +25,13 @@ internal sealed class PagePool : IAsyncDisposable
             Browser = SupportedBrowser.Chromium,
             HeadlessMode = HeadlessMode.True
         });
-        var pageTasks = new int[_pdfGenOptions.MaxDegreeOfParallelism]
+        var pageTasks = new int[options.MaxDegreeOfParallelism]
             .Select(_ => _browser.NewPageAsync());
-        var pages = await Task.WhenAll(pageTasks);
-        foreach (var page in pages)
-        {
-            await page.SetJavaScriptEnabledAsync(false);
-            _pages.Add(page);
-        }
+        return await Task.WhenAll(pageTasks);
     }
 
-    public async ValueTask<Stream?> Run(Func<IPage, Task<Stream>> func)
+    public override void Dispose()
     {
-        await EnsureInitialized();
-        var page = _pages.Take();
-        var result = await func(page);
-        _pages.Add(page);
-        return result;
-
-    }
-
-    private async ValueTask EnsureInitialized()
-    {
-        if (_browser is not null)
-        {
-            return;
-        }
-
-        await Semaphore.WaitAsync();
-        if (_browser is null)
-        {
-            await Initialize();
-        }
-        Semaphore.Release();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (_browser != null)
-        {
-            await _browser.CloseAsync();
-        }
+        _browser?.Dispose();
     }
 }

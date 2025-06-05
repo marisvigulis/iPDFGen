@@ -1,18 +1,19 @@
 using iPDFGen.Core.Abstractions;
+using PuppeteerSharp;
 
 namespace iPDFGen.Puppeteer;
 
 internal sealed class PuppeteerInitializer: IPdfGenInitializer
 {
-    private readonly PagePool _pagePool;
+    private readonly IGeneratorPool<IPage> _pagePool;
 
-    public PuppeteerInitializer(PagePool pagePool)
+    public PuppeteerInitializer(IGeneratorPool<IPage> pagePool)
     {
         _pagePool = pagePool;
     }
 
-    public async ValueTask InitializeAsync()
+    public ValueTask InitializeAsync()
     {
-        await _pagePool.Initialize();
+        return _pagePool.InitializeAsync();
     }
 }

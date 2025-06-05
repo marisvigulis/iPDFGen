@@ -11,34 +11,37 @@ namespace iPDFGen.Puppeteer;
 
 internal sealed class PuppeteerGenerator: IPdfGenerator
 {
-    private readonly PagePool _pagePool;
+    private readonly IGeneratorPool<IPage> _pagePool;
 
-    public PuppeteerGenerator(PagePool pagePool)
+    public PuppeteerGenerator(IGeneratorPool<IPage> pagePool)
     {
         _pagePool = pagePool;
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
+
+    public ValueTask<UsageModel> UsageAsync() => _pagePool.UsageAsync();
+
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.Run(async page =>
+        return _pagePool.RunAsync(async (page, _) =>
         {
             await page.SetContentAsync(markup, new NavigationOptions
             {
                 Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
             });
 
-            return await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions());
-        });
+            await page.EmulateMediaTypeAsync(MediaType.Screen);
 
-        return new PdfGenSuccessResult
-        {
-            Stream = pdfStream
-        };
+            return new PdfGenSuccessResult
+            {
+                Stream = await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions())
+            };
+        });
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.Run(async page =>
+        return _pagePool.RunAsync(async (page, _) =>
         {
             await page.GoToAsync(url, new NavigationOptions
             {
@@ -47,19 +50,10 @@ internal sealed class PuppeteerGenerator: IPdfGenerator
 
             await page.EmulateMediaTypeAsync(MediaType.Screen);
 
-            var result = await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions());
-
-            return result;
+            return new PdfGenSuccessResult
+            {
+                Stream = await page.PdfStreamAsync(settings.ToPuppeteerPdfOptions())
+            };
         });
-
-        if (pdfStream is null)
-        {
-            return new PdfGenErrorResult("01", "Internal error");
-        }
-
-        return new PdfGenSuccessResult
-        {
-            Stream = pdfStream
-        };
     }
 }

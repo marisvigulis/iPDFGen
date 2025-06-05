@@ -10,16 +10,18 @@ namespace iPDFGen.Playwright;
 
 internal sealed class PlaywrightGenerator: IPdfGenerator
 {
-    private readonly PagePool _pagePool;
+    private readonly IGeneratorPool<IPage> _pagePool;
 
-    public PlaywrightGenerator(PagePool pagePool)
+    public PlaywrightGenerator(IGeneratorPool<IPage> pagePool)
     {
         _pagePool = pagePool;
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
+    public ValueTask<UsageModel> UsageAsync() => _pagePool.UsageAsync();
+
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> Generate(string markup, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.RunAsync(async page =>
+        return _pagePool.RunAsync(async (page, _) =>
         {
             await page.SetContentAsync(markup, new PageSetContentOptions
             {
@@ -27,40 +29,34 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
 
             });
 
+
             var fileBytes = await page.PdfAsync(settings?.ToPlaywrightPdfOptions());
             return fileBytes.Length == 0
-                ? null
-                : new MemoryStream(fileBytes);
+                ? new PdfGenErrorResult("0002", "Playwright returned empty PDF")
+                : new PdfGenSuccessResult
+                {
+                    Stream = new MemoryStream(fileBytes)
+                };
         });
-
-        if (pdfStream is null)
-        {
-            return new PdfGenErrorResult("01", "Internal error");
-        }
-
-        return new PdfGenSuccessResult
-        {
-            Stream = pdfStream
-        };
     }
 
-    public async ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
+    public ValueTask<OneOf<PdfGenSuccessResult, PdfGenErrorResult>> GenerateByUrl(string url, PdfGeneratorSettings? settings = null)
     {
-        var pdfStream = await _pagePool.RunAsync(async page =>
+        return _pagePool.RunAsync(async (page, _) =>
         {
             await page.GotoAsync(url, new PageGotoOptions
             {
-                Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
+                Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds,
             });
 
-            var result = await page.PdfAsync(settings.ToPlaywrightPdfOptions());
 
-            return new MemoryStream(result);
+            var fileBytes = await page.PdfAsync(settings?.ToPlaywrightPdfOptions());
+            return fileBytes.Length == 0
+                ? new PdfGenErrorResult("0002", "Playwright returned empty PDF")
+                : new PdfGenSuccessResult
+                {
+                    Stream = new MemoryStream(fileBytes)
+                };
         });
-
-        return new PdfGenSuccessResult
-        {
-            Stream = pdfStream
-        };
     }
 }

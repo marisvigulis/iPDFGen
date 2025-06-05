@@ -1,18 +1,20 @@
 using iPDFGen.Core.Abstractions;
+using Microsoft.Playwright;
 
 namespace iPDFGen.Playwright;
 
 internal sealed class PlaywrightInitializer: IPdfGenInitializer
 {
-    private readonly PagePool _pagePool;
+    private readonly IGeneratorPool<IPage> _playwrightGeneratorPool;
 
-    public PlaywrightInitializer(PagePool pagePool)
+    public PlaywrightInitializer(IGeneratorPool<IPage> playwrightGeneratorPool)
     {
-        _pagePool = pagePool;
+        _playwrightGeneratorPool = playwrightGeneratorPool;
     }
+
 
     public async ValueTask InitializeAsync()
     {
-        await _pagePool.InitializeAsync();
+        await _playwrightGeneratorPool.InitializeAsync();
     }
 }
