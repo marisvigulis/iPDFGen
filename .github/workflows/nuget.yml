@@ -36,13 +36,13 @@ jobs:
           fi
 
       - name: Pack iPDFGen.Core
-        run: dotnet pack iPDFGen.Core/iPDFGen.Core.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
+        run: dotnet pack Providers/iPDFGen.Core/iPDFGen.Core.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
       - name: Pack iPDFGen.Puppeteer
-        run: dotnet pack iPDFGen.Puppeteer/iPDFGen.Puppeteer.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
+        run: dotnet pack Providers/iPDFGen.Puppeteer/iPDFGen.Puppeteer.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
       - name: Pack iPDFGen.Playwright
-        run: dotnet pack iPDFGen.Playwright/iPDFGen.Playwright.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
+        run: dotnet pack Providers/iPDFGen.Playwright/iPDFGen.Playwright.csproj -c Release /p:Version=${{ steps.extract_version.outputs.VERSION }} -o ./nupkgs
 
       - name: Publish to NuGet
         run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
