@@ -5,15 +5,15 @@ namespace iPDFGen.Puppeteer;
 
 internal sealed class PuppeteerInitializer: IPdfGenInitializer
 {
-    private readonly IGeneratorPool<IPage> _pagePool;
+    private readonly IGeneratorPool<IPage> _generatorPool;
 
-    public PuppeteerInitializer(IGeneratorPool<IPage> pagePool)
+    public PuppeteerInitializer(IGeneratorPool<IPage> generatorPool)
     {
-        _pagePool = pagePool;
+        _generatorPool = generatorPool;
     }
 
     public ValueTask InitializeAsync()
     {
-        return _pagePool.InitializeAsync();
+        return _generatorPool.InitializeAsync();
     }
 }

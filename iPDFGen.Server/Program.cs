@@ -4,8 +4,8 @@ using iPDFGen.Core.Extensions;
 using iPDFGen.Playwright.Extensions;
 using iPDFGen.Puppeteer.Extensions;
 using iPDFGen.Server;
+using iPDFGen.Server.Contracts;
 using iPDFGen.Server.Middlewares;
-using iPDFGen.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using OneOf;
 
@@ -33,16 +33,26 @@ builder.Services.AddPdfGen(options =>
 var app = builder.Build();
 await app.Services.GetRequiredService<IPdfGenInitializer>().InitializeAsync();
 
-if (!args.Any())
+if (args.Length == 0)
 {
-    app.UseGzipRequestDecompression();
+    app.UseMiddleware<RequestDecompressionMiddleware>();
+    app.UseMiddleware<SharedSecretValidationMiddleware>();
 
     app.MapGet("api/alive", () => "I'm alive");
+
+    app.MapGet("api/usage",
+        async (HttpContext context) =>
+        {
+            return await context.RequestServices.GetRequiredService<IPdfGenerator>().UsageAsync();
+        });
 
     app.MapPost("/api/pdf", async (HttpContext context, [FromBody] PdfGenRequest request) =>
     {
         var generator = context.RequestServices.GetRequiredService<IPdfGenerator>();
-        OneOf<PdfGenSuccessResult, PdfGenErrorResult> result = await generator.Generate(request.Body, request.Settings);
+
+        var result = request.IsGenerationByHtml
+            ? await generator.Generate(request.Body!, request.Settings)
+            : await generator.GenerateByUrl(request.Url!, request.Settings);
 
         return result.Match(
             success => Results.File(success.Stream, "application/pdf", "result.pdf"),

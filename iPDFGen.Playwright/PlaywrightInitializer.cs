@@ -5,16 +5,16 @@ namespace iPDFGen.Playwright;
 
 internal sealed class PlaywrightInitializer: IPdfGenInitializer
 {
-    private readonly IGeneratorPool<IPage> _playwrightGeneratorPool;
+    private readonly IGeneratorPool<IPage> _generatorPool;
 
-    public PlaywrightInitializer(IGeneratorPool<IPage> playwrightGeneratorPool)
+    public PlaywrightInitializer(IGeneratorPool<IPage> generatorPool)
     {
-        _playwrightGeneratorPool = playwrightGeneratorPool;
+        _generatorPool = generatorPool;
     }
 
 
     public async ValueTask InitializeAsync()
     {
-        await _playwrightGeneratorPool.InitializeAsync();
+        await _generatorPool.InitializeAsync();
     }
 }

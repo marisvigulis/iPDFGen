@@ -1,4 +1,5 @@
 using iPDFGen.Core;
+using iPDFGen.Server.Contracts;
 
 namespace iPDFGen.Server;
 
@@ -28,7 +29,6 @@ public static class EnvironmentVariables
         return PdfGenDefaults.DefaultTimeout;
     }
 
-
     public static PdfGenProvider LoadPdfGenProvider()
     {
         var maxDegreeOfParallelismStr = Environment.GetEnvironmentVariable("PDFGEN_PROVIDER");
@@ -40,4 +40,7 @@ public static class EnvironmentVariables
 
         return PdfGenProvider.Playwright;
     }
+
+    public static string LoadSharedSecret()
+        => Environment.GetEnvironmentVariable("SHARED_SECRET") ?? PdfGenServerConstants.DefaultSharedSecret;
 }
