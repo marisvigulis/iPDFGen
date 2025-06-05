@@ -12,7 +12,7 @@ public abstract class GeneratorBase
     private ServiceProvider _provider = null!;
     private Dictionary<string, string> _markups = null!;
     private string _defaultTemplate = null!;
-    private const string DefaultTemplateUrl = "https://raw.githubusercontent.com/marisvigulis/iPDFGen/refs/heads/mv/initial_core_with_puppeteer/Samples/iPDFGen.Playground/Templates/resume.A4.xs.html?token=GHSAT0AAAAAADCZFZEU2OCUFBCMHKMPWTWE2B6UCJQ";
+    private const string DefaultTemplateUrl = "https://raw.githubusercontent.com/marisvigulis/iPDFGen/refs/heads/main/Samples/iPDFGen.Playground/Templates/resume.A4.xs.html";
 
     protected async ValueTask SetupInternal(Action<PdfGenOptions> register)
     {
