@@ -2,6 +2,8 @@
 
 iPDFGen is a free, open-source .NET library designed to simplify PDF generation from Html by providing a unified API over multiple PDF generation providers. It allows seamless switching between providers (e.g., Puppeteer, Playwright) without changing your code, addressing common challenges like licensing changes, page limits, or provider discontinuation.
 
+[![Build and Test](https://github.com/marisvigulis/iPDFGen/actions/workflows/dotnet.yml/badge.svg)](https://github.com/marisvigulis/iPDFGen/actions/workflows/dotnet.yml)
+
 ## Why iPDFGen?
 
 - **Reliable and Flexible**: Supports multiple providers with a consistent API, making it easy to switch if a provider's terms or pricing change.
