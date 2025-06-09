@@ -12,6 +12,6 @@ dotnet iPDFGen.Server.dll install-deps
 ## Some useful commands
 
 ```bash
-  docker build -t ipdfgen-server ../.
+  docker build -t ipdfgen-server .
 ```
 
