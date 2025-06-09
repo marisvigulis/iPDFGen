@@ -29,7 +29,7 @@ internal sealed class PlaywrightGenerator: IPdfGenerator
             });
 
 
-            var fileBytes = await page.PdfAsync(settings?.ToPlaywrightPdfOptions());
+            var fileBytes = await page.PdfAsync(settings.ToPlaywrightPdfOptions());
             return fileBytes.Length == 0
                 ? new PdfGenErrorResult("0002", "Playwright returned empty PDF")
                 : new PdfGenSuccessResult
