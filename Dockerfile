@@ -9,6 +9,7 @@ RUN dotnet publish "iPDFGen.Server/iPDFGen.Server.csproj" \
 
 FROM ubuntu:24.04 AS final
 RUN apt-get update \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends aspnetcore-runtime-10.0 ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN useradd -m -u 1001 -s /bin/bash app
