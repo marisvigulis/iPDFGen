@@ -19,7 +19,7 @@ dotnet iPDFGen.Server.dll install-deps
 
 ### Run
 ```bash
-  docker run --rm -p 8080:8080 -e SHARED_SECRET=MAGIC_STRING_$2123499 ipdfgen-server
+  docker run --rm -p 8080:8080 ipdfgen-server
 ```
 > All endpoints require an `X-Shared-Secret: my-secret` header matching `SHARED_SECRET`.
 > On first start the container downloads Chromium before it begins listening on port `8080`.
