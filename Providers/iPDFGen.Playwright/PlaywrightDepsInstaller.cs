@@ -6,6 +6,6 @@ public sealed class PlaywrightDepsInstaller
 {
     public void Install()
     {
-        Program.Main(["install-deps"]);
+        Program.Main(["install-deps", "chromium"]);
     }
 }

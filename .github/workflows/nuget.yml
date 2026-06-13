@@ -18,9 +18,9 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
 
       - name: Extract version
         id: extract_version
