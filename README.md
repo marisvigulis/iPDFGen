@@ -9,7 +9,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
 - **Reliable and Flexible**: Supports multiple providers with a consistent API, making it easy to switch if a provider's terms or pricing change.
 - **Open Source**: Freely available under the MIT License, with no commercial restrictions.
 - **Performance-Oriented**: Optimized for typical workloads, with benchmarked performance across providers.
-- **Developer-Friendly**: Simple setup and integration with .NET 8 applications.
+- **Developer-Friendly**: Simple setup and integration with .NET 10 applications.
 
 ## Quick Start
 
@@ -53,7 +53,7 @@ iPDFGen is a free, open-source .NET library designed to simplify PDF generation 
 ## Installation
 
 ### Prerequisites
-- .NET 8 SDK or later
+- .NET 10 SDK or later
 
 ### Steps
 1. Install the core iPDFGen package:

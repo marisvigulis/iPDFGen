@@ -10,13 +10,13 @@ public class OptionsMappingTests
     [InlineData(PdfFormat.Legal, 8.5, 14)]
     [InlineData(PdfFormat.Tabloid, 11, 17)]
     [InlineData(PdfFormat.Ledger, 17, 11)]
-    [InlineData(PdfFormat.A0, 33.1, 46.8)]
-    [InlineData(PdfFormat.A1, 23.4, 33.1)]
-    [InlineData(PdfFormat.A2, 16.54, 23.4)]
-    [InlineData(PdfFormat.A3, 11.7, 16.54)]
-    [InlineData(PdfFormat.A4, 8.27, 11.7)]
-    [InlineData(PdfFormat.A5, 5.83, 8.27)]
-    [InlineData(PdfFormat.A6, 4.13, 5.83)]
+    [InlineData(PdfFormat.A0, 33.1102, 46.811)]
+    [InlineData(PdfFormat.A1, 23.3858, 33.1102)]
+    [InlineData(PdfFormat.A2, 16.5354, 23.3858)]
+    [InlineData(PdfFormat.A3, 11.6929, 16.5354)]
+    [InlineData(PdfFormat.A4, 8.2677, 11.6929)]
+    [InlineData(PdfFormat.A5, 5.8268, 8.2677)]
+    [InlineData(PdfFormat.A6, 4.1339, 5.8268)]
     public void ToPuppeteerPaperFormat(PdfFormat pdfFormat, decimal expectedWidth, decimal expectedHeight)
     {
         var puppeteerPaperFormat = pdfFormat.ToPuppeteerPaperFormat();

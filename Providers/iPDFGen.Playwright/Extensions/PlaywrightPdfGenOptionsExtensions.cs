@@ -13,6 +13,7 @@ public static class PlaywrightPdfGenOptionsExtensions
         options.ServiceCollection.AddSingleton<IPdfGenInitializer, PlaywrightInitializer>();
         options.ServiceCollection.AddSingleton<IPdfGenerator, PlaywrightGenerator>();
         options.ServiceCollection.AddSingleton<IGeneratorPool<IPage>, PlaywrightGeneratorPool>();
+        options.ServiceCollection.AddSingleton<PlaywrightDepsInstaller, PlaywrightDepsInstaller>();
 
         return options;
     }

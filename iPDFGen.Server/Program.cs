@@ -1,13 +1,12 @@
 using iPDFGen.Core.Abstractions;
-using iPDFGen.Core.Abstractions.Generator;
 using iPDFGen.Core.Extensions;
+using iPDFGen.Playwright;
 using iPDFGen.Playwright.Extensions;
 using iPDFGen.Puppeteer.Extensions;
 using iPDFGen.Server;
 using iPDFGen.Server.Contracts;
 using iPDFGen.Server.Middlewares;
 using Microsoft.AspNetCore.Mvc;
-using OneOf;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +30,15 @@ builder.Services.AddPdfGen(options =>
 });
 
 var app = builder.Build();
-await app.Services.GetRequiredService<IPdfGenInitializer>().InitializeAsync();
+
+if (args.Contains("install-deps"))
+{
+    app.Services.GetRequiredService<PlaywrightDepsInstaller>().Install();
+}
 
 if (args.Length == 0)
 {
+    await app.Services.GetRequiredService<IPdfGenInitializer>().InitializeAsync();
     app.UseMiddleware<RequestDecompressionMiddleware>();
     app.UseMiddleware<SharedSecretValidationMiddleware>();
 

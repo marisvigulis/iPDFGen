@@ -22,7 +22,7 @@ internal sealed class PuppeteerGenerator: IPdfGenerator
     {
         return _pagePool.RunAsync(async (page, _) =>
         {
-            await page.SetContentAsync(markup, new NavigationOptions
+            await page.SetContentAsync(markup, new SetContentOptions
             {
                 Timeout = settings?.Timeout ?? PdfGenDefaults.DefaultTimeout.Milliseconds
             });
